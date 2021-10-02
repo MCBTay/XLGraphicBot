@@ -6,13 +6,11 @@ using System.Drawing;
 
 namespace XLGraphicBot 
 {
-    // 350, 156 is rough upper left boundary
-    // 820, 390 is rough right boundary
-    // 584, 624 is rough center point of where we want the graphic to land on front
     public class MShirtGraphicModule : BaseTopGraphicModule
     {
         [Command("mshirt")]
         [Summary("Applies the image to the SkaterXL MShirt template.")]
+        [Alias("shirt")]
         public async Task MShirtAsync(
 	        string color = null)
         {
