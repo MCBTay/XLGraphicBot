@@ -5,7 +5,7 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-namespace DeckGraphicBot
+namespace XLGraphicBot
 {
   public class CommandHandler
   {

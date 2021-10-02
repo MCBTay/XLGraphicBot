@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
 
-namespace DeckGraphicBot 
+namespace XLGraphicBot 
 {
     public class DeckGraphicModule : ModuleBase<SocketCommandContext>
     {

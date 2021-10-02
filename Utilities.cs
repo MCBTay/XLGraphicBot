@@ -6,7 +6,7 @@ using Discord;
 using System.Drawing;
 using Discord.WebSocket;
 
-namespace DeckGraphicBot 
+namespace XLGraphicBot 
 {
     public class Utilities
     {

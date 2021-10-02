@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
 
-namespace DeckGraphicBot 
+namespace XLGraphicBot 
 {
     // 350, 156 is rough upper left boundary
     // 820, 390 is rough right boundary

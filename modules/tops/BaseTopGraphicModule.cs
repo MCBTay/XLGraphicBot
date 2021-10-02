@@ -5,7 +5,7 @@ using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace DeckGraphicBot
+namespace XLGraphicBot
 {
     public class BaseTopGraphicModule : ModuleBase<SocketCommandContext>
     {
