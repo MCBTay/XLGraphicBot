@@ -46,5 +46,35 @@ namespace XLGraphicBot
 
             File.Delete(filepath);
         }
+
+        public static Rectangle ScaleImage(Bitmap image, Rectangle rectangle) 
+        {
+            if (image.Width > image.Height) 
+            {
+                float ratio = (float)rectangle.Width / (float)image.Width;
+
+                var newWidth = (int)(image.Width * ratio);
+                var newHeight = (int)(image.Height * ratio);
+
+                var newY = rectangle.Y + ((rectangle.Height - newHeight) / 2);
+
+                return new Rectangle(rectangle.X, newY, newWidth, newHeight);
+            }
+            else if (image.Height > image.Width) 
+            {
+                float ratio = (float)rectangle.Height / (float)image.Height;
+                
+                var newWidth = (int)(image.Width * ratio);
+                var newHeight = (int)(image.Height * ratio);
+
+                var newX = rectangle.X + ((rectangle.Width - newWidth) / 2);
+
+                return new Rectangle(newX, rectangle.Y, newWidth, newHeight);
+            }
+            else
+            {
+                return rectangle;
+            }
+        }
     }
 }
