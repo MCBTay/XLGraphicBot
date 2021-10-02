@@ -2,7 +2,7 @@
 
 namespace DeckGraphicBot
 {
-    class Program
+    public class DeckGraphicBot
     {
         static void Main(string[] args)
         {
