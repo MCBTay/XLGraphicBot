@@ -3,17 +3,18 @@ using System.IO;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace DeckGraphicBot
 {
     public class BaseTopGraphicModule : ModuleBase<SocketCommandContext>
     {
+        private Bitmap attachmentImage;
+        protected Bitmap template;
+        private Bitmap shirt;
+
 	    public async Task GenerateGraphicAsync(string templateName, string color, Rectangle rectangle)
         {
-            Bitmap attachmentImage = null;
-            Bitmap template = null;
-            Bitmap shirt = null;
-
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
 
@@ -32,42 +33,17 @@ namespace DeckGraphicBot
 
                 using (Graphics g = Graphics.FromImage(shirt))
                 {
-	                g.Clear(System.Drawing.Color.Transparent);
+	                g.Clear(Color.Transparent);
 
                     g.DrawImage(template, 0, 0, template.Width, template.Height);
 
-                    if (!string.IsNullOrEmpty(color))
-	                {
-                        Color parsedColor = System.Drawing.Color.White;
-
-                        if (color.StartsWith('#')) 
-                        {
-                            parsedColor = System.Drawing.ColorTranslator.FromHtml(color);
-                        }
-                        else 
-                        {
-                            parsedColor = System.Drawing.Color.FromName(color);
-                        }		                
-
-                        for (int i = 0; i < shirt.Width; i++) 
-                        {
-                            for (int j = 0; j < shirt.Height; j++) 
-                            {
-                                var pixel = shirt.GetPixel(i, j);
-
-                                if (pixel.R == 255 && pixel.G == 255 && pixel.B == 255) 
-                                {
-                                    shirt.SetPixel(i, j, parsedColor);
-                                }
-                            }
-                        }
-	                }
+                    ReplaceTemplateColor(color);
 
                     g.DrawImage(attachmentImage, rectangle);
                 }
 
                 shirtFilePath = $"./img/generated/{templateName}_{attachmentFileName}.png";
-                shirt.Save(shirtFilePath, System.Drawing.Imaging.ImageFormat.Png);
+                shirt.Save(shirtFilePath, ImageFormat.Png);
 
                 await Context.Channel.SendFileAsync(shirtFilePath);
             }
@@ -84,6 +60,35 @@ namespace DeckGraphicBot
 
                 Utilities.DeleteFile(attachmentFilePath);
                 Utilities.DeleteFile(shirtFilePath);
+            }
+        }
+
+        private void ReplaceTemplateColor(string color)
+        {
+            if (string.IsNullOrEmpty(color)) return;
+	                
+            Color parsedColor = Color.White;
+
+            if (color.StartsWith('#')) 
+            {
+                parsedColor = ColorTranslator.FromHtml(color);
+            }
+            else 
+            {
+                parsedColor = Color.FromName(color);
+            }		                
+
+            for (int i = 0; i < shirt.Width; i++) 
+            {
+                for (int j = 0; j < shirt.Height; j++) 
+                {
+                    var pixel = shirt.GetPixel(i, j);
+
+                    if (pixel.R == 255 && pixel.G == 255 && pixel.B == 255) 
+                    {
+                        shirt.SetPixel(i, j, parsedColor);
+                    }
+                }
             }
         }
     }

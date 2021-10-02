@@ -16,7 +16,7 @@ namespace DeckGraphicBot
         public async Task MShirtAsync(
 	        string color = null)
         {
-	        var rect = new Rectangle(420, 250, 330, 330);
+            var rect = new Rectangle(420, 250, 330, 330);
 	        await GenerateGraphicAsync("mshirt", color, rect);
         }
     }
