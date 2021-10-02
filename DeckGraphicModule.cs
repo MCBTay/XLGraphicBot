@@ -31,10 +31,10 @@ namespace DeckGraphicBot
               (attachmentImage, attachmentFileName) = await GetMostRecentImage();
               if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
-              template = new Bitmap("./template.png");
+              template = new Bitmap("./img/deck_template.png");
               if (template == null) return;
 
-              wear = new Bitmap("./wear2.png");
+              wear = new Bitmap("./img/deck_wear_template.png");
               if (wear == null) return;
 
               deck = new Bitmap(template.Width, template.Height);
@@ -98,7 +98,7 @@ namespace DeckGraphicBot
               (attachmentImage, attachmentFileName) = await GetMostRecentImage();
               if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
-              template = new Bitmap("./shirt_template.png");
+              template = new Bitmap("./img/shirt_template.png");
               if (template == null) return;
 
               shirt = new Bitmap(template.Width, template.Height);
