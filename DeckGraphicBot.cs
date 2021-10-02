@@ -3,16 +3,16 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
 
-namespace DeckGraphicBot
+namespace XLGraphicBot
 {
-    public class DeckGraphicBot
+    public class XLGraphicBot
     {
         private const string APP_TOKEN = "app_token_here";
         private DiscordSocketClient _client;
 
         public static void Main(string[] args)
         {
-            new DeckGraphicBot().MainAsync().GetAwaiter().GetResult();
+            new XLGraphicBot().MainAsync().GetAwaiter().GetResult();
         }
 
         public async Task MainAsync() 
