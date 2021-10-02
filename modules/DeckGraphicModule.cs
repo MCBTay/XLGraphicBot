@@ -2,19 +2,28 @@ using System;
 using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace XLGraphicBot 
 {
+    [NamedArgumentType]
+    public class DeckGraphicModuleArguments 
+    {
+        public bool IncludeWear { get; set; } = false;
+        public bool MaintainAspectRatio { get; set; } = true;
+    }
+    
     public class DeckGraphicModule : ModuleBase<SocketCommandContext>
     {
         [Command("deck")]
         [Summary("Applies the SkaterXL deck template to the most recent image.")]
-        public async Task DeckAsync()
+        public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
         {
             Bitmap attachmentImage = null;
             Bitmap template = null;
             Bitmap deck = null;
-            Bitmap wear = null;
+            Bitmap wearTemplate = null;
 
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
@@ -27,21 +36,39 @@ namespace XLGraphicBot
                 (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context.Channel);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
+                attachmentFilePath = $"./img/download/{attachmentFileName}";
+
                 template = new Bitmap("./img/templates/deck.png");
                 if (template == null) return;
-
-                wear = new Bitmap("./img/templates/wear.png");
-                if (wear == null) return;
 
                 deck = new Bitmap(template.Width, template.Height);
 
                 using (Graphics g = Graphics.FromImage(deck)) 
                 {
-                    g.Clear(System.Drawing.Color.Transparent);
+                    g.Clear(Color.Transparent);
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-                    g.DrawImage(attachmentImage, new Rectangle(0, 694, template.Width, 482));
+                    var scaledRect = new Rectangle();
+                    if (arguments != null && !arguments.MaintainAspectRatio)
+                    {
+                        scaledRect = new Rectangle(0, 694, template.Width, 482);
+                    }
+                    else 
+                    {
+                        scaledRect = Utilities.ScaleImage(attachmentImage, new Rectangle(0, 694, template.Width, 482));
+                    }
+                    
+                    g.DrawImage(attachmentImage, scaledRect);
                     g.DrawImage(template, 0, 0, template.Width, template.Height);
-                    g.DrawImage(wear, 0, 0, template.Width, template.Height);
+
+                    if (arguments != null && arguments.IncludeWear)
+                    {
+                        wearTemplate = new Bitmap("./img/templates/wear.png");
+                        if (wearTemplate != null)
+                        {
+                            g.DrawImage(wearTemplate, 0, 0, template.Width, template.Height);
+                        }
+                    }
                 }
 
                 deckFilePath = $"./Deck_{attachmentFileName}.png";
@@ -59,7 +86,7 @@ namespace XLGraphicBot
                 attachmentImage?.Dispose();
                 template?.Dispose();
                 deck?.Dispose();
-                wear?.Dispose();
+                wearTemplate?.Dispose();
 
                 Utilities.DeleteFile(attachmentFilePath);
                 Utilities.DeleteFile(deckFilePath);
