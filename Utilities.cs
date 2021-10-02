@@ -31,7 +31,7 @@ namespace DeckGraphicBot
               {
                 var bytes = await client.GetByteArrayAsync(attachment.Url);
                 
-                var filePath = $"./{fileName}";
+                var filePath = $"./img/download/{fileName}";
                 File.WriteAllBytes(filePath, bytes);
                 image = new Bitmap(filePath);
               }
