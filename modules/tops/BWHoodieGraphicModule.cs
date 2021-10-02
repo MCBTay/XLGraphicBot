@@ -11,10 +11,9 @@ namespace XLGraphicBot
         [Command("bwhoodie")]
         [Summary("Applies the image to the SkaterXL BWHoodie template.")]
         [Alias("bw")]
-        public async Task BWHoodieAsync(
-	        string color = null)
+        public async Task BWHoodieAsync(string color = null)
         {
-            var rect = new Rectangle(420, 250, 330, 330);
+            var rect = new Rectangle(265, 225, 325, 325);
 	        await GenerateGraphicAsync("bwhoodie", color, rect);
         }
     }

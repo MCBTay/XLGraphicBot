@@ -10,11 +10,10 @@ namespace XLGraphicBot
     {
         [Command("tlsweater")]
         [Summary("Applies the image to the SkaterXL TLSweater template.")]
-        [Alias("sweater")]
-        public async Task TLSweaterAsync(
-	        string color = null)
+        [Alias("tl")]
+        public async Task TLSweaterAsync(string color = null)
         {
-            var rect = new Rectangle(420, 250, 330, 330);
+            var rect = new Rectangle(1340, 305, 400, 400);
 	        await GenerateGraphicAsync("tlsweater", color, rect);
         }
     }

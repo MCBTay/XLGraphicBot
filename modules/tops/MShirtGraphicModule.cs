@@ -11,8 +11,7 @@ namespace XLGraphicBot
         [Command("mshirt")]
         [Summary("Applies the image to the SkaterXL MShirt template.")]
         [Alias("shirt")]
-        public async Task MShirtAsync(
-	        string color = null)
+        public async Task MShirtAsync(string color = null)
         {
             var rect = new Rectangle(420, 250, 330, 330);
 	        await GenerateGraphicAsync("mshirt", color, rect);
