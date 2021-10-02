@@ -23,7 +23,15 @@ namespace DeckGraphicBot
             await _client.LoginAsync(TokenType.Bot, APP_TOKEN);
             await _client.StartAsync();
 
+            _client.Ready += OnReady;
+
             await Task.Delay(-1);
+        }
+
+        private async Task OnReady()
+        {
+          var commandHandler = new CommandHandler(_client, new Discord.Commands.CommandService());
+          await commandHandler.InstallCommandsAsync();
         }
 
         private Task Log(LogMessage msg) 
