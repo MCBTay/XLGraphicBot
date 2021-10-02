@@ -27,6 +27,8 @@ namespace XLGraphicBot
                 (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context.Channel);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
+                attachmentFilePath = $"./img/download/{attachmentFileName}";
+
                 template = new Bitmap($"./img/templates/tops/{templateName}.png");
                 if (template == null) return;
 
