@@ -8,13 +8,20 @@ using System.Drawing.Drawing2D;
 
 namespace XLGraphicBot
 {
+    [NamedArgumentType]
+    public class BaseTopGraphicModuleArguments 
+    {
+        public string Color { get; set; }
+        public bool MaintainAspectRatio { get; set; } = true;
+    }
+
     public class BaseTopGraphicModule : ModuleBase<SocketCommandContext>
     {
         private Bitmap attachmentImage;
         protected Bitmap template;
         private Bitmap shirt;
 
-	    public async Task GenerateGraphicAsync(string templateName, string color, Rectangle rectangle)
+	    public async Task GenerateGraphicAsync(string templateName, Rectangle rectangle, BaseTopGraphicModuleArguments arguments)
         {
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
@@ -37,41 +44,23 @@ namespace XLGraphicBot
                 using (Graphics g = Graphics.FromImage(shirt))
                 {
 	                g.Clear(Color.Transparent);
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
                     g.DrawImage(template, 0, 0, template.Width, template.Height);
 
-                    ReplaceTemplateColor(color);
+                    ReplaceTemplateColor(arguments?.Color);
 
-                    if (attachmentImage.Width > attachmentImage.Height) 
+                    var scaledRect = new Rectangle();
+                    if (arguments != null && !arguments.MaintainAspectRatio)
                     {
-                        float ratio = (float)rectangle.Width / (float)attachmentImage.Width;
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                        var newWidth = (int)(attachmentImage.Width * ratio);
-                        var newHeight = (int)(attachmentImage.Height * ratio);
-
-                        var newY = rectangle.Y + ((rectangle.Height - newHeight) / 2);
-
-                        var newRect = new Rectangle(rectangle.X, newY, newWidth, newHeight);
-                        g.DrawImage(attachmentImage, newRect);
+                        scaledRect = rectangle;
                     }
-                    else if (attachmentImage.Height > attachmentImage.Width) 
+                    else 
                     {
-                        float ratio = (float)rectangle.Height / (float)attachmentImage.Height;
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                        var newWidth = (int)(attachmentImage.Width * ratio);
-                        var newHeight = (int)(attachmentImage.Height * ratio);
-
-                        var newX = rectangle.X + ((rectangle.Width - newWidth) / 2);
-
-                        var newRect = new Rectangle(newX, rectangle.Y, newWidth, newHeight);
-                        g.DrawImage(attachmentImage, newRect);
+                        scaledRect = Utilities.ScaleImage(attachmentImage, rectangle);
                     }
-                    else
-                    {
-                        g.DrawImage(attachmentImage, rectangle);
-                    }
+
+                    g.DrawImage(attachmentImage, scaledRect);
                 }
 
                 shirtFilePath = $"./img/generated/{templateName}_{attachmentFileName}.png";

@@ -11,10 +11,10 @@ namespace XLGraphicBot
         [Command("esshirt")]
         [Summary("Applies the image to the SkaterXL ESShirt template.")]
         [Alias("es")]
-        public async Task ESShirtAsync(string color = null)
+        public async Task ESShirtAsync(BaseTopGraphicModuleArguments arguments = null)
         {
             var rect = new Rectangle(460, 260, 320, 320);
-	        await GenerateGraphicAsync("esshirt", color, rect);
+	        await GenerateGraphicAsync("esshirt", rect, arguments);
         }
     }
 }
