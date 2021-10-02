@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace XLGraphicBot
 {
@@ -39,7 +40,36 @@ namespace XLGraphicBot
 
                     ReplaceTemplateColor(color);
 
-                    g.DrawImage(attachmentImage, rectangle);
+                    if (attachmentImage.Width > attachmentImage.Height) 
+                    {
+                        float ratio = (float)rectangle.Width / (float)attachmentImage.Width;
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                        var newWidth = (int)(attachmentImage.Width * ratio);
+                        var newHeight = (int)(attachmentImage.Height * ratio);
+
+                        var newY = rectangle.Y + ((rectangle.Height - newHeight) / 2);
+
+                        var newRect = new Rectangle(rectangle.X, newY, newWidth, newHeight);
+                        g.DrawImage(attachmentImage, newRect);
+                    }
+                    else if (attachmentImage.Height > attachmentImage.Width) 
+                    {
+                        float ratio = (float)rectangle.Height / (float)attachmentImage.Height;
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                        var newWidth = (int)(attachmentImage.Width * ratio);
+                        var newHeight = (int)(attachmentImage.Height * ratio);
+
+                        var newX = rectangle.X + ((rectangle.Width - newWidth) / 2);
+
+                        var newRect = new Rectangle(newX, rectangle.Y, newWidth, newHeight);
+                        g.DrawImage(attachmentImage, newRect);
+                    }
+                    else
+                    {
+                        g.DrawImage(attachmentImage, rectangle);
+                    }
                 }
 
                 shirtFilePath = $"./img/generated/{templateName}_{attachmentFileName}.png";
