@@ -27,10 +27,10 @@ namespace XLGraphicBot
               (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context.Channel);
               if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
-              template = new Bitmap("./img/templates/deck_template.png");
+              template = new Bitmap("./img/templates/deck.png");
               if (template == null) return;
 
-              wear = new Bitmap("./img/templates/deck_wear_template.png");
+              wear = new Bitmap("./img/templates/wear.png");
               if (wear == null) return;
 
               deck = new Bitmap(template.Width, template.Height);
