@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
@@ -7,7 +8,6 @@ namespace XLGraphicBot
 {
     public class XLGraphicBot
     {
-        private const string APP_TOKEN = "app_token_here";
         private DiscordSocketClient _client;
 
         public static void Main(string[] args)
@@ -20,7 +20,9 @@ namespace XLGraphicBot
             _client = new DiscordSocketClient();
             _client.Log += Log;
 
-            await _client.LoginAsync(TokenType.Bot, APP_TOKEN);
+            var token = File.ReadAllText("./token.txt");
+
+            await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
             _client.Ready += OnReady;
