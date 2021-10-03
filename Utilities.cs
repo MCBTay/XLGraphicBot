@@ -4,21 +4,21 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using System.Drawing;
-using Discord.WebSocket;
+using Discord.Commands;
 
-namespace XLGraphicBot 
+namespace XLGraphicBot
 {
-    public class Utilities
+  public class Utilities
     {
-        public static async Task<(Bitmap Image, string fileName)> GetMostRecentImage(ISocketMessageChannel channel) 
+        public static async Task<(Bitmap Image, string fileName)> GetMostRecentImage(SocketCommandContext context) 
         {
               Bitmap image = null;
               var fileName = string.Empty;
 
-              var messages = await channel.GetMessagesAsync(20).FlattenAsync();
+              var messages = await context.Channel.GetMessagesAsync(20).FlattenAsync();
               if (messages == null || messages.Count() == 0) return (image, fileName);
 
-              var attachmentMessage = messages.FirstOrDefault(x => x.Attachments.Any());
+              var attachmentMessage = messages.FirstOrDefault(x => x.Attachments.Any() && x.Author.Id != context.Client.CurrentUser.Id);
               var attachment = attachmentMessage?.Attachments?.FirstOrDefault();
               if (attachment == null) return (image, fileName);
 
