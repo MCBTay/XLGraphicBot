@@ -33,7 +33,7 @@ namespace XLGraphicBot
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context.Channel);
+                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
