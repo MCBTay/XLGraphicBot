@@ -31,6 +31,9 @@ namespace XLGraphicBot
               {
                 var bytes = await client.GetByteArrayAsync(attachment.Url);
                 
+                var directory = $"./img/download/";
+                if (!Directory.Exists(directory)) Directory.CreateDirectory(directory);
+                
                 var filePath = $"./img/download/{fileName}";
                 File.WriteAllBytes(filePath, bytes);
                 image = new Bitmap(filePath);

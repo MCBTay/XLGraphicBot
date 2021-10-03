@@ -4,6 +4,7 @@ using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace XLGraphicBot 
 {
@@ -71,7 +72,10 @@ namespace XLGraphicBot
                     }
                 }
 
-                deckFilePath = $"./Deck_{attachmentFileName}.png";
+                var deckDirectory = "./img/generated/";
+                if (!Directory.Exists(deckDirectory)) Directory.CreateDirectory(deckDirectory);
+
+                deckFilePath = $"{deckDirectory}Deck_{attachmentFileName}.png";
                 deck.Save(deckFilePath, System.Drawing.Imaging.ImageFormat.Png);
 
                 await Context.Channel.SendFileAsync(deckFilePath);
