@@ -4,6 +4,7 @@ using Discord.Commands;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace XLGraphicBot
 {
@@ -62,7 +63,10 @@ namespace XLGraphicBot
                     g.DrawImage(attachmentImage, scaledRect);
                 }
 
-                shirtFilePath = $"./img/generated/{templateName}_{attachmentFileName}.png";
+                var shirtDirectory = "./img/generated/";
+                if (!Directory.Exists(shirtDirectory)) Directory.CreateDirectory(shirtDirectory);
+
+                shirtFilePath = $"{shirtDirectory}{templateName}_{attachmentFileName}.png";
                 shirt.Save(shirtFilePath, ImageFormat.Png);
 
                 await Context.Channel.SendFileAsync(shirtFilePath);
