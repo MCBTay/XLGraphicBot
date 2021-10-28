@@ -1,6 +1,8 @@
 ﻿using Discord;
 using Discord.WebSocket;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace XLGraphicBot
@@ -19,7 +21,21 @@ namespace XLGraphicBot
             _client = new DiscordSocketClient();
             _client.Log += Log;
 
-            var token = Environment.GetEnvironmentVariable("Token");
+            var tokenPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "token.txt");
+
+            var token = string.Empty;
+
+            if (!File.Exists(tokenPath))
+            {
+	            Console.WriteLine("Couldn't find token file.");
+	            return;
+            }
+
+            using (var sr = new StreamReader(tokenPath))
+            {
+	            token = await sr.ReadToEndAsync();
+            }
+
             if (string.IsNullOrEmpty(token)) return;
 
             await _client.LoginAsync(TokenType.Bot, token);
