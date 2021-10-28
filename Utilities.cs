@@ -47,8 +47,10 @@ namespace XLGraphicBot
             File.Delete(filepath);
         }
 
-        public static Rectangle ScaleImage(Bitmap image, Rectangle rectangle) 
+        public static Rectangle ScaleImage(Bitmap image, Rectangle rectangle)
         {
+	        if (image.Width == image.Height) return rectangle;
+
             if (image.Width > image.Height) 
             {
                 float ratio = (float)rectangle.Width / (float)image.Width;
@@ -70,10 +72,6 @@ namespace XLGraphicBot
                 var newX = rectangle.X + ((rectangle.Width - newWidth) / 2);
 
                 return new Rectangle(newX, rectangle.Y, newWidth, newHeight);
-            }
-            else
-            {
-                return rectangle;
             }
         }
     }
