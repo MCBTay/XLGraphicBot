@@ -53,8 +53,7 @@ namespace XLGraphicBot
         public static Rectangle ScaleImage(Bitmap image, Rectangle rectangle)
         {
 	        if (image.Width == image.Height) return rectangle;
-
-            if (image.Width > image.Height) 
+            else if (image.Width > image.Height) 
             {
                 float ratio = (float)rectangle.Width / (float)image.Width;
 
@@ -76,6 +75,7 @@ namespace XLGraphicBot
 
                 return new Rectangle(newX, rectangle.Y, newWidth, newHeight);
             }
+            else return rectangle;
         }
     }
 }
