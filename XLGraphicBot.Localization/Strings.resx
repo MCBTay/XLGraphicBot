@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Deck_Description" xml:space="preserve">
+    <value>- `!deck` - Takes the most recent image not posted by XLGraphicBot and places it on a deck template.</value>
+  </data>
+  <data name="Deck_IncludeWear" xml:space="preserve">
+    <value>    - `includeWear` - Defaults to `false`.  Overlays a board wear pattern on the texture.  Example usage: `!deck includeWear: true`</value>
+  </data>
+  <data name="Deck_MaintainAspectRatio" xml:space="preserve">
+    <value>    - `maintainAspectRatio` - Defaults to `true`.  Maintains the original images aspect ratio when scaling down.  Example usage: `!deck maintainAspectRatio: false`</value>
+  </data>
+  <data name="Deck_Parameters" xml:space="preserve">
+    <value>  - Has two optional parameters, which can be omitted entirely or used in any combination or order:</value>
+  </data>
+  <data name="General_Colors" xml:space="preserve">
+    <value>  - To see a list of all the colors that can be used with these run `!graphicbot help tops colors`.</value>
+  </data>
+  <data name="General_Deck" xml:space="preserve">
+    <value>- `!deck` - Takes the most recent image and places it on a deck template.  For more info, run `!graphicbot help deck`.</value>
+  </data>
+  <data name="General_Description" xml:space="preserve">
+    <value>XLGraphicBot allows you to take images posted in a channel and turn them into a deck or shirt immediately for SkaterXL.</value>
+  </data>
+  <data name="General_Tops" xml:space="preserve">
+    <value>- `!alphamshirt`/`!bwhoodie`/`!esshirt`/`!mhoodie`/`!mshirt`/`!msweater`/`!tashirt`/`!tlsweater` - Takes the most recent image and places it on the appropriate shirt/sweater template.  For more info, run `!graphicbot help tops`</value>
+  </data>
+  <data name="HelpHeader" xml:space="preserve">
+    <value>**XLGraphicBot Help**</value>
+  </data>
+  <data name="KnownColors" xml:space="preserve">
+    <value>AliceBlue, AntiqueWhite, Aqua, Aquamarine, Azure, Beige, Bisque, Black, BlanchedAlmond, Blue, BlueViolet, Brown, BurlyWood, CadetBlue, Chartreuse, Chocolate, Coral, CornflowerBlue, Cornsilk, Crimson, Cyan, DarkBlue, DarkCyan, DarkGoldenrod, DarkGray, DarkGreen, DarkKhaki, DarkMagenta, DarkOliveGreen, DarkOrange, DarkOrchid, DarkRed, DarkSalmon, DarkSeaGreen, DarkSlateBlue, DarkSlateGray, DarkTurquoise, DarkViolet, DeepPink, DeepSkyBlue, DimGray, DodgerBlue, Firebrick, FloralWhite, ForestGreen, Fuchsia, Gainsboro, GhostWhite, Gold, Goldenrod, Gray, Green, GreenYellow, Honeydew, HotPink, IndianRed, Indigo, Ivory, Khaki, Lavender, LavenderBlush, LawnGreen, LemonChiffon, LightBlue, LightCoral, LightCyan, LightGoldenrodYellow, LightGray, LightGreen, LightPink, LightSalmon, LightSeaGreen, LightSkyBlue, LightSlateGray, LightSteelBlue, LightYellow, Lime, LimeGreen, Linen, Magenta, Maroon, MediumAquamarine, MediumBlue, MediumOrchid, MediumPurple, MediumSeaGreen, MediumSlateBlue, MediumSpringGreen, MediumTurquoise, MediumVioletRed, MidnightBlue, MintCream, MistyRose, Moccasin, NavajoWhite, Navy, OldLace, Olive, OliveDrab, Orange, OrangeRed, Orchid, PaleGoldenrod, PaleGreen, PaleTurquoise, PaleVioletRed, PapayaWhip, PeachPuff, Peru, Pink, Plum, PowderBlue, Purple, Red, RosyBrown, RoyalBlue, SaddleBrown, Salmon, SandyBrown, SeaGreen, SeaShell, Sienna, Silver, SkyBlue, SlateBlue, SlateGray, Snow, SpringGreen, SteelBlue, Tan, Teal, Thistle, Tomato, Transparent, Turquoise, Violet, Wheat, White, WhiteSmoke, Yellow, and YellowGreen</value>
+  </data>
+  <data name="TheFullListOfColors" xml:space="preserve">
+    <value>The full list of colors that can be used with any of the tops commands:</value>
+  </data>
+  <data name="Tops_AARRGGBB" xml:space="preserve">
+    <value>      - `#AARRGGBB` - Example usage: `!esshirt color: #FFFF00FF`</value>
+  </data>
+  <data name="Tops_AlphaMShirt" xml:space="preserve">
+    <value>- `!alphamshirt`/`!alpha` - Alpha MShirt template.</value>
+  </data>
+  <data name="Tops_BWHoodie" xml:space="preserve">
+    <value>- `!bwhoodie`/`!bw` - BWHoodie template.</value>
+  </data>
+  <data name="Tops_Color" xml:space="preserve">
+    <value>    - `color` - Defaults to `null`.  If not passed, the default white of the template will be used.  Can be passed in 3 formats:</value>
+  </data>
+  <data name="Tops_Description" xml:space="preserve">
+    <value>XLGraphicBot supports multiple top types.  They all take the most recent image that was not posted by XLGraphicBot and place it on the appropriate template.  Most have aliases and shortcuts.</value>
+  </data>
+  <data name="Tops_ESShirt" xml:space="preserve">
+    <value>- `!esshirt`/`!es` - ESShirt template.</value>
+  </data>
+  <data name="Tops_KnownColors" xml:space="preserve">
+    <value>      - `Known colors` - English monikers for colors.  To see the full list run `!graphicbot help tops colors`.</value>
+  </data>
+  <data name="Tops_MaintainAspectRatio" xml:space="preserve">
+    <value>    - `maintainAspectRatio` - Defaults to `true`.  Maintains the original images aspect ratio when scaling down.  Example usage: `!mshirt maintainAspectRatio: false`</value>
+  </data>
+  <data name="Tops_MHoodie" xml:space="preserve">
+    <value>- `!mhoodie`/`!hoodie` - MHoodie template.</value>
+  </data>
+  <data name="Tops_MShirt" xml:space="preserve">
+    <value>- `!mshirt`/`!shirt` - MShirt template.</value>
+  </data>
+  <data name="Tops_MSweater" xml:space="preserve">
+    <value>- `!msweater`/`!sweater` - MSweater template.</value>
+  </data>
+  <data name="Tops_Parameters" xml:space="preserve">
+    <value>  - Each of these commands have two optional parameters which can be omitted entirely or used in any combination or order:</value>
+  </data>
+  <data name="Tops_RRGGBB" xml:space="preserve">
+    <value>      - `#RRGGBB` - Example usage: `!tlsweater color: #FF00FF`</value>
+  </data>
+  <data name="Tops_TAShirt" xml:space="preserve">
+    <value>- `!tashirt`/`!ta` - TAShirt template.</value>
+  </data>
+  <data name="Tops_TLSweater" xml:space="preserve">
+    <value>- `!tlsweater`/`!tl` - TLSweater template.</value>
+  </data>
+</root>

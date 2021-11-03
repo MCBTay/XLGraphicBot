@@ -8,9 +8,13 @@
 	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="XLGraphicBot.Localization\**" />
     <Compile Remove="XLGraphicBot.UnitTest\**" />
+    <Content Remove="XLGraphicBot.Localization\**" />
     <Content Remove="XLGraphicBot.UnitTest\**" />
+    <EmbeddedResource Remove="XLGraphicBot.Localization\**" />
     <EmbeddedResource Remove="XLGraphicBot.UnitTest\**" />
+    <None Remove="XLGraphicBot.Localization\**" />
     <None Remove="XLGraphicBot.UnitTest\**" />
   </ItemGroup>
   <ItemGroup>
@@ -59,5 +63,8 @@
   <ItemGroup>
     <Folder Include="img\download\" />
     <Folder Include="img\generated\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="XLGraphicBot.Localization\XLGraphicBot.Localization.csproj" />
   </ItemGroup>
 </Project>
