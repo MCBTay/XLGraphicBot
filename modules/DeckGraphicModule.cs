@@ -1,14 +1,14 @@
-using System;
-using System.Threading.Tasks;
 using Discord.Commands;
+using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-namespace XLGraphicBot 
+namespace XLGraphicBot
 {
-    [NamedArgumentType]
+	[NamedArgumentType]
     public class DeckGraphicModuleArguments 
     {
         public bool IncludeWear { get; set; } = false;
@@ -17,6 +17,13 @@ namespace XLGraphicBot
     
     public class DeckGraphicModule : ModuleBase<SocketCommandContext>
     {
+	    private readonly IHttpClientFactory _httpClientFactory;
+
+	    public DeckGraphicModule(IHttpClientFactory httpClientFactory)
+	    {
+		    _httpClientFactory = httpClientFactory;
+	    }
+
         [Command("deck")]
         [Summary("Applies the SkaterXL deck template to the most recent image.")]
         public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
@@ -34,7 +41,7 @@ namespace XLGraphicBot
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context);
+                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_httpClientFactory, Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";

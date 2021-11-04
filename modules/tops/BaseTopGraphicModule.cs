@@ -1,14 +1,15 @@
-using System;
-using System.Threading.Tasks;
 using Discord.Commands;
+using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace XLGraphicBot
 {
-    [NamedArgumentType]
+	[NamedArgumentType]
     public class BaseTopGraphicModuleArguments 
     {
         public string Color { get; set; }
@@ -17,9 +18,16 @@ namespace XLGraphicBot
 
     public class BaseTopGraphicModule : ModuleBase<SocketCommandContext>
     {
+	    private readonly IHttpClientFactory _httpClientFactory;
+
         private Bitmap attachmentImage;
         protected Bitmap template;
         private Bitmap shirt;
+
+        public BaseTopGraphicModule(IHttpClientFactory httpClientFactory)
+        {
+	        _httpClientFactory = httpClientFactory;
+        }
 
 	    public async Task GenerateGraphicAsync(string templateName, Rectangle rectangle, BaseTopGraphicModuleArguments arguments)
         {
@@ -31,7 +39,7 @@ namespace XLGraphicBot
 
             try
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(Context);
+                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_httpClientFactory, Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";

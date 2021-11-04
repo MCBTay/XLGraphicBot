@@ -1,13 +1,17 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
 using Discord.Commands;
 using System.Drawing;
+using System.Net.Http;
+using System.Threading.Tasks;
 
-namespace XLGraphicBot 
+namespace XLGraphicBot
 {
-    public class AlphaMShirtGraphicModule : BaseTopGraphicModule
+	public class AlphaMShirtGraphicModule : BaseTopGraphicModule
     {
+	    public AlphaMShirtGraphicModule(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+	    {
+		    
+	    }
+
         [Command("alphamshirt")]
         [Summary("Applies the image to the SkaterXL Alpha MShirt template.")]
         [Alias("alpha")]
