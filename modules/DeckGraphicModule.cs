@@ -44,7 +44,7 @@ namespace XLGraphicBot
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await GetMostRecentImage();
+                (attachmentImage, attachmentFileName) = await GetMostRecentImage(Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";

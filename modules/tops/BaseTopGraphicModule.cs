@@ -24,7 +24,7 @@ namespace XLGraphicBot
         protected Bitmap template;
         private Bitmap shirt;
 
-        protected BaseTopGraphicModule(
+        public BaseTopGraphicModule(
 	        IFileSystem fileSystem,
 	        IHttpClientFactory httpClientFactory)
 	        : base(fileSystem, httpClientFactory)
@@ -42,7 +42,7 @@ namespace XLGraphicBot
 
             try
             {
-                (attachmentImage, attachmentFileName) = await GetMostRecentImage();
+                (attachmentImage, attachmentFileName) = await GetMostRecentImage(Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";

@@ -13,7 +13,7 @@ namespace XLGraphicBot.modules
 		protected readonly IFileSystem _fileSystem;
 		protected readonly IHttpClientFactory _httpClientFactory;
 
-		protected BaseGraphicModule(
+		public BaseGraphicModule(
 			IFileSystem fileSystem, 
 			IHttpClientFactory httpClientFactory)
 		{
@@ -21,15 +21,15 @@ namespace XLGraphicBot.modules
 			_httpClientFactory = httpClientFactory;
 		}
 
-		protected async Task<(Bitmap Image, string fileName)> GetMostRecentImage()
+		public async Task<(Bitmap Image, string fileName)> GetMostRecentImage(ICommandContext context)
 		{
 			Bitmap image = null;
 			var fileName = string.Empty;
 
-			var messages = await Context.Channel.GetMessagesAsync(20).FlattenAsync();
+			var messages = await context.Channel.GetMessagesAsync(20).FlattenAsync();
 			if (messages == null || !messages.Any()) return (image, fileName);
 
-			var attachmentMessage = messages.FirstOrDefault(x => x.Attachments.Any() && x.Author.Id != Context.Client.CurrentUser.Id);
+			var attachmentMessage = messages.FirstOrDefault(x => x.Attachments.Any() && x.Author.Id != context.Client.CurrentUser.Id);
 			var attachment = attachmentMessage?.Attachments?.FirstOrDefault();
 			if (attachment == null) return (image, fileName);
 
@@ -53,7 +53,7 @@ namespace XLGraphicBot.modules
 			return (image, fileName);
 		}
 
-		protected void DeleteFile(string filepath)
+		public void DeleteFile(string filepath)
 		{
 			if (string.IsNullOrEmpty(filepath)) return;
 			if (!_fileSystem.File.Exists(filepath)) return;
@@ -61,7 +61,7 @@ namespace XLGraphicBot.modules
 			_fileSystem.File.Delete(filepath);
 		}
 
-		protected Rectangle ScaleImage(Bitmap image, Rectangle rectangle)
+		public Rectangle ScaleImage(Bitmap image, Rectangle rectangle)
 		{
 			if (image.Width == image.Height) return rectangle;
 			
