@@ -5,6 +5,7 @@ using System;
 using System.IO.Abstractions;
 using System.Reflection;
 using System.Threading.Tasks;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot
 {
@@ -22,6 +23,7 @@ namespace XLGraphicBot
 			_serviceProvider = new ServiceCollection()
 				.AddHttpClient()
 				.AddScoped<IFileSystem, FileSystem>()
+				.AddSingleton<IHelpService, HelpService>()
 				.BuildServiceProvider();
 
 			_client = client;
