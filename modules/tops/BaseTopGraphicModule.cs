@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using XLGraphicBot.modules;
 
 namespace XLGraphicBot
 {
@@ -17,24 +18,21 @@ namespace XLGraphicBot
         public bool MaintainAspectRatio { get; set; } = true;
     }
 
-    public class BaseTopGraphicModule : ModuleBase<SocketCommandContext>
+    public class BaseTopGraphicModule : BaseGraphicModule
     {
-	    private readonly IFileSystem _fileSystem;
-        private readonly IHttpClientFactory _httpClientFactory;
-
         private Bitmap attachmentImage;
         protected Bitmap template;
         private Bitmap shirt;
 
-        public BaseTopGraphicModule(
+        protected BaseTopGraphicModule(
 	        IFileSystem fileSystem,
-		    IHttpClientFactory httpClientFactory)
+	        IHttpClientFactory httpClientFactory)
+	        : base(fileSystem, httpClientFactory)
         {
-	        _fileSystem = fileSystem;
-	        _httpClientFactory = httpClientFactory;
+
         }
 
-	    public async Task GenerateGraphicAsync(string templateName, Rectangle rectangle, BaseTopGraphicModuleArguments arguments)
+        public async Task GenerateGraphicAsync(string templateName, Rectangle rectangle, BaseTopGraphicModuleArguments arguments)
         {
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
@@ -44,7 +42,7 @@ namespace XLGraphicBot
 
             try
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_fileSystem, _httpClientFactory, Context);
+                (attachmentImage, attachmentFileName) = await GetMostRecentImage();
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
@@ -70,7 +68,7 @@ namespace XLGraphicBot
                     }
                     else 
                     {
-                        scaledRect = Utilities.ScaleImage(attachmentImage, rectangle);
+                        scaledRect = ScaleImage(attachmentImage, rectangle);
                     }
 
                     g.DrawImage(attachmentImage, scaledRect);
@@ -95,8 +93,8 @@ namespace XLGraphicBot
                 template?.Dispose();
                 shirt?.Dispose();
 
-                Utilities.DeleteFile(attachmentFilePath);
-                Utilities.DeleteFile(shirtFilePath);
+                DeleteFile(attachmentFilePath);
+                DeleteFile(shirtFilePath);
             }
         }
 

@@ -6,6 +6,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using XLGraphicBot.modules;
 
 namespace XLGraphicBot
 {
@@ -16,20 +17,17 @@ namespace XLGraphicBot
         public bool MaintainAspectRatio { get; set; } = true;
     }
     
-    public class DeckGraphicModule : ModuleBase<SocketCommandContext>
+    public class DeckGraphicModule : BaseGraphicModule
     {
-	    private readonly IFileSystem _fileSystem;
-	    private readonly IHttpClientFactory _httpClientFactory;
-
 	    public DeckGraphicModule(
-		    IFileSystem fileSystem,
-		    IHttpClientFactory httpClientFactory)
-	    {
-		    _fileSystem = fileSystem;
-		    _httpClientFactory = httpClientFactory;
-	    }
+			IFileSystem fileSystem,
+			IHttpClientFactory httpClientFactory)
+			: base(fileSystem, httpClientFactory)
+		{
 
-        [Command("deck")]
+		}
+
+		[Command("deck")]
         [Summary("Applies the SkaterXL deck template to the most recent image.")]
         public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
         {
@@ -46,7 +44,7 @@ namespace XLGraphicBot
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_fileSystem, _httpClientFactory, Context);
+                (attachmentImage, attachmentFileName) = await GetMostRecentImage();
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
@@ -68,7 +66,7 @@ namespace XLGraphicBot
                     }
                     else 
                     {
-                        scaledRect = Utilities.ScaleImage(attachmentImage, new Rectangle(0, 694, template.Width, 482));
+                        scaledRect = ScaleImage(attachmentImage, new Rectangle(0, 694, template.Width, 482));
                     }
                     
                     g.DrawImage(attachmentImage, scaledRect);
@@ -104,8 +102,8 @@ namespace XLGraphicBot
                 deck?.Dispose();
                 wearTemplate?.Dispose();
 
-                Utilities.DeleteFile(attachmentFilePath);
-                Utilities.DeleteFile(deckFilePath);
+                DeleteFile(attachmentFilePath);
+                DeleteFile(deckFilePath);
             }
         }
     }
