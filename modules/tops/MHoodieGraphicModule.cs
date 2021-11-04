@@ -1,5 +1,6 @@
 using Discord.Commands;
 using System.Drawing;
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -7,7 +8,10 @@ namespace XLGraphicBot
 {
 	public class MHoodieGraphicModule : BaseTopGraphicModule
     {
-	    public MHoodieGraphicModule(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+	    public MHoodieGraphicModule(
+		    IFileSystem fileSystem,
+		    IHttpClientFactory httpClientFactory)
+		    : base(fileSystem, httpClientFactory)
         {
 		    
 	    }

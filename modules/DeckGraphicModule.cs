@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -17,10 +18,14 @@ namespace XLGraphicBot
     
     public class DeckGraphicModule : ModuleBase<SocketCommandContext>
     {
+	    private readonly IFileSystem _fileSystem;
 	    private readonly IHttpClientFactory _httpClientFactory;
 
-	    public DeckGraphicModule(IHttpClientFactory httpClientFactory)
+	    public DeckGraphicModule(
+		    IFileSystem fileSystem,
+		    IHttpClientFactory httpClientFactory)
 	    {
+		    _fileSystem = fileSystem;
 		    _httpClientFactory = httpClientFactory;
 	    }
 
@@ -41,7 +46,7 @@ namespace XLGraphicBot
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_httpClientFactory, Context);
+                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_fileSystem, _httpClientFactory, Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";

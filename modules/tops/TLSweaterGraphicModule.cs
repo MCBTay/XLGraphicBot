@@ -1,5 +1,6 @@
 using Discord.Commands;
 using System.Drawing;
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -7,7 +8,10 @@ namespace XLGraphicBot
 {
 	public class TLSweaterGraphicModule : BaseTopGraphicModule
     {
-	    public TLSweaterGraphicModule(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
+	    public TLSweaterGraphicModule(
+		    IFileSystem fileSystem,
+		    IHttpClientFactory httpClientFactory)
+		    : base(fileSystem, httpClientFactory)
         {
 		    
 	    }

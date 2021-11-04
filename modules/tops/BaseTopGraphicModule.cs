@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -18,14 +19,18 @@ namespace XLGraphicBot
 
     public class BaseTopGraphicModule : ModuleBase<SocketCommandContext>
     {
-	    private readonly IHttpClientFactory _httpClientFactory;
+	    private readonly IFileSystem _fileSystem;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         private Bitmap attachmentImage;
         protected Bitmap template;
         private Bitmap shirt;
 
-        public BaseTopGraphicModule(IHttpClientFactory httpClientFactory)
+        public BaseTopGraphicModule(
+	        IFileSystem fileSystem,
+		    IHttpClientFactory httpClientFactory)
         {
+	        _fileSystem = fileSystem;
 	        _httpClientFactory = httpClientFactory;
         }
 
@@ -39,7 +44,7 @@ namespace XLGraphicBot
 
             try
             {
-                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_httpClientFactory, Context);
+                (attachmentImage, attachmentFileName) = await Utilities.GetMostRecentImage(_fileSystem, _httpClientFactory, Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
