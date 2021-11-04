@@ -66,7 +66,7 @@ namespace XLGraphicBot
                     }
                     else 
                     {
-                        scaledRect = ScaleImage(attachmentImage, new Rectangle(0, 694, template.Width, 482));
+                        scaledRect = ScaleImage(attachmentImage.Width, attachmentImage.Height, new Rectangle(0, 694, template.Width, 482));
                     }
                     
                     g.DrawImage(attachmentImage, scaledRect);
