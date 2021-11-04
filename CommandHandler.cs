@@ -2,6 +2,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO.Abstractions;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace XLGraphicBot
     {
 		private readonly DiscordSocketClient _client;
 		private readonly CommandService _commandService;
+
 		private readonly IServiceProvider _serviceProvider;
 
 		public CommandHandler(
@@ -19,6 +21,7 @@ namespace XLGraphicBot
 		{
 			_serviceProvider = new ServiceCollection()
 				.AddHttpClient()
+				.AddScoped<IFileSystem, FileSystem>()
 				.BuildServiceProvider();
 
 			_client = client;
