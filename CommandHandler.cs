@@ -1,49 +1,54 @@
+using Discord.Commands;
+using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
 
 namespace XLGraphicBot
 {
-  public class CommandHandler
-  {
-      private readonly DiscordSocketClient _client;
-      private readonly CommandService _commandService;
+	public class CommandHandler
+    {
+		private readonly DiscordSocketClient _client;
+		private readonly CommandService _commandService;
+		private readonly IServiceProvider _serviceProvider;
 
-      public CommandHandler(
-        DiscordSocketClient client,
-        CommandService commandService)
-      {
-        _client = client;
-        _commandService = commandService;
-      }
+		public CommandHandler(
+			DiscordSocketClient client,
+			CommandService commandService)
+		{
+			_serviceProvider = new ServiceCollection()
+				.AddHttpClient()
+				.BuildServiceProvider();
 
-      public async Task InstallCommandsAsync()
-      {
-          _client.MessageReceived += HandleCommandAsync;
+			_client = client;
+			_commandService = commandService;
+		}
 
-          await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), null);
-      }
+		public async Task InstallCommandsAsync()
+		{
+			_client.MessageReceived += HandleCommandAsync;
 
-      private async Task HandleCommandAsync(SocketMessage messageParam)
-      {
-          var message = messageParam as SocketUserMessage;
-          if (message == null) return;
+			await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), _serviceProvider);
+		}
 
-          int argPos = 0;
+		private async Task HandleCommandAsync(SocketMessage messageParam)
+		{
+			var message = messageParam as SocketUserMessage;
+			if (message == null) return;
 
-          if (!(message.HasCharPrefix('!', ref argPos)
-                || message.HasMentionPrefix(_client.CurrentUser, ref argPos))
-                || message.Author.IsBot)
-          {
-            return;
-          }
+			int argPos = 0;
 
-          var context = new SocketCommandContext(_client, message);
+			if (!(message.HasCharPrefix('!', ref argPos)
+				|| message.HasMentionPrefix(_client.CurrentUser, ref argPos))
+				|| message.Author.IsBot)
+			{
+				return;
+			}
 
-          await _commandService.ExecuteAsync(context, argPos, null);
-      }
-  }
+			var context = new SocketCommandContext(_client, message);
+
+			await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
+		}
+    }
 }
