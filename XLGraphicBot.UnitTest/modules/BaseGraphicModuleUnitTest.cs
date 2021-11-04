@@ -4,6 +4,7 @@ using Discord.Commands;
 using FluentAssertions;
 using Moq;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO.Abstractions;
 using System.Linq;
@@ -17,6 +18,7 @@ using Xunit;
 
 namespace XLGraphicBot.UnitTest.modules
 {
+	[ExcludeFromCodeCoverage]
 	public class BaseGraphicModuleUnitTest
 	{
 		#region GetMostRecentImage tests
