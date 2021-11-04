@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using XLGraphicBot.Localization;
 using XLGraphicBot.services;
 using XLGraphicBot.UnitTest.Core;
@@ -7,6 +8,7 @@ using Xunit;
 
 namespace XLGraphicBot.UnitTest.services
 {
+	[ExcludeFromCodeCoverage]
 	public class HelpServiceUnitTest
 	{
 		[Theory, AutoMoqData]
