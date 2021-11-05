@@ -49,7 +49,6 @@ namespace XLGraphicBot.modules.tops
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
                 template = new Bitmap($"./img/templates/tops/{templateName}.png");
-                if (template == null) return;
 
                 shirt = new Bitmap(template.Width, template.Height);
 
