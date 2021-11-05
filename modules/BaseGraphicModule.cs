@@ -12,6 +12,10 @@ namespace XLGraphicBot.modules
 		protected readonly IDiscordService _discordService;
 		protected readonly IFileSystem _fileSystem;
 
+		protected Bitmap Graphic;
+		protected Bitmap Template;
+		protected Bitmap ResultGraphic;
+
 		public BaseGraphicModule(
 			IBitmapService bitmapService,
 			IDiscordService discordService,
@@ -60,7 +64,7 @@ namespace XLGraphicBot.modules
 			return rectangle;
 		}
 
-		protected async Task WriteFileAndSend(Bitmap bitmap, string filename)
+		protected async Task<string> WriteFileAndSend(Bitmap bitmap, string filename)
 		{
 			var generatedDirectory = "./img/generated/";
 			if (!_fileSystem.Directory.Exists(generatedDirectory)) _fileSystem.Directory.CreateDirectory(generatedDirectory);
@@ -68,6 +72,8 @@ namespace XLGraphicBot.modules
 			var filePath = $"{generatedDirectory}{filename}";
 
 			await _discordService.SendFileAsync(Context, bitmap, filePath);
+
+			return filePath;
 		}
 	}
 }
