@@ -116,7 +116,7 @@ namespace XLGraphicBot.modules.tops
             }
         }
 
-        private Color ParseColor(string color)
+        private static Color ParseColor(string color)
         {
           if (color.StartsWith('#')) 
           {
