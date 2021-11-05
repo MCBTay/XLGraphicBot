@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using XLGraphicBot.modules;
+using XLGraphicBot.services;
 using XLGraphicBot.UnitTest.Core;
 using Xunit;
 
@@ -199,8 +200,7 @@ namespace XLGraphicBot.UnitTest.modules
 			ulong otherUserId,
 			IReadOnlyList<IAttachment> attachments,
 			Mock<IMessageChannel> mockMessageChannel,
-			[Frozen] Mock<HttpClient> mockHttpClient,
-			[Frozen] Mock<IFileSystem> mockFileSystem,
+			[Frozen] Mock<IBitmapService> mockBitmapService,
 			[Frozen] Mock<ICommandContext> mockCommandContext,
 			BaseGraphicModule sut)
 		{
@@ -224,7 +224,8 @@ namespace XLGraphicBot.UnitTest.modules
 			{
 				Mock.Get(attachment).SetupGet(x => x.Height).Returns(100);
 				Mock.Get(attachment).SetupGet(x => x.Width).Returns(100);
-				Mock.Get(attachment).SetupGet(x => x.Url).Returns("www.google.com");
+				Mock.Get(attachment).SetupGet(x => x.Url).Returns("http://www.google.com");
+				Mock.Get(attachment).SetupGet(x => x.Filename).Returns("image.png");
 			}
 
 			mockDiscordClient
@@ -245,22 +246,14 @@ namespace XLGraphicBot.UnitTest.modules
 				.SetupGet(x => x.Channel)
 				.Returns(mockMessageChannel.Object);
 
-			var test = new HttpClient(new HttpMessageHandlerStub());
-
-			//mockHttpClient
-			//	.Setup(x => x.GetByteArrayAsync(It.IsAny<string>()))
-			//	.ReturnsAsync(new byte[1]);
+			mockBitmapService
+				.Setup(x => x.CreateBitmap(It.IsAny<string>(), It.IsAny<string>()))
+				.ReturnsAsync(new Bitmap(100, 100));
 
 			(Bitmap image, string filename) = await sut.GetMostRecentImage(mockCommandContext.Object);
 
-			image.Should().BeNull();
-			filename.Should().BeEmpty();
-
-			mockFileSystem
-				.Verify(x => x.File.WriteAllBytesAsync(
-					It.IsAny<string>(),
-					It.IsAny<byte[]>(),
-					It.IsAny<CancellationToken>()));
+			image.Should().NotBeNull();
+			filename.Should().NotBeNullOrEmpty();
 		}
 		#endregion
 

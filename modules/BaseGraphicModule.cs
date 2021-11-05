@@ -10,8 +10,8 @@ namespace XLGraphicBot.modules
 {
 	public class BaseGraphicModule : ModuleBase<SocketCommandContext>
 	{
-		protected readonly IBitmapService _bitmapService;
-		protected readonly IFileSystem _fileSystem;
+		private readonly IBitmapService _bitmapService;
+		private readonly IFileSystem _fileSystem;
 
 		public BaseGraphicModule(
 			IBitmapService bitmapService,
