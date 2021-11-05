@@ -9,10 +9,9 @@ namespace XLGraphicBot.modules.tops
 	public class MHoodieGraphicModule : BaseTopGraphicModule
     {
 	    public MHoodieGraphicModule(
-		    IBitmapService bitmapService,
 		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
+		    : base(discordService, fileSystem)
         {
 		    
 	    }

@@ -20,10 +20,9 @@ namespace XLGraphicBot.modules
     public class DeckGraphicModule : BaseGraphicModule
     {
 	    public DeckGraphicModule(
-            IBitmapService bitmapService,
 		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
+		    : base(discordService, fileSystem)
         {
 
 		}

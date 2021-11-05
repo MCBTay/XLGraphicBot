@@ -27,10 +27,9 @@ namespace XLGraphicBot.modules.tops
         private Bitmap shirt;
 
         public BaseTopGraphicModule(
-	        IBitmapService bitmapService,
 	        IDiscordService discordService,
 	        IFileSystem fileSystem)
-	        : base(bitmapService, discordService, fileSystem)
+	        : base(discordService, fileSystem)
         {
 
         }
