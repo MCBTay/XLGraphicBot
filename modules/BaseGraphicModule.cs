@@ -7,13 +7,16 @@ namespace XLGraphicBot.modules
 {
 	public class BaseGraphicModule : ModuleBase<SocketCommandContext>
 	{
+		protected readonly IBitmapService _bitmapService;
 		protected readonly IDiscordService _discordService;
 		protected readonly IFileSystem _fileSystem;
 
 		public BaseGraphicModule(
+			IBitmapService bitmapService,
 			IDiscordService discordService,
 			IFileSystem fileSystem)
 		{
+			_bitmapService = bitmapService;
 			_discordService = discordService;
 			_fileSystem = fileSystem;
 		}

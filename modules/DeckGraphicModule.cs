@@ -20,9 +20,10 @@ namespace XLGraphicBot.modules
     public class DeckGraphicModule : BaseGraphicModule
     {
 	    public DeckGraphicModule(
+            IBitmapService bitmapService,
 		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(discordService, fileSystem)
+		    : base(bitmapService, discordService, fileSystem)
         {
 
 		}
@@ -85,7 +86,8 @@ namespace XLGraphicBot.modules
                 if (!_fileSystem.Directory.Exists(deckDirectory)) _fileSystem.Directory.CreateDirectory(deckDirectory);
 
                 deckFilePath = $"{deckDirectory}Deck_{attachmentFileName}.png";
-                deck.Save(deckFilePath, System.Drawing.Imaging.ImageFormat.Png);
+
+                _bitmapService.WriteBitmap(deck, deckFilePath, System.Drawing.Imaging.ImageFormat.Png);
 
                 await Context.Channel.SendFileAsync(deckFilePath);
             }

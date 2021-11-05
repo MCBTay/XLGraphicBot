@@ -9,9 +9,10 @@ namespace XLGraphicBot.modules.tops
 	public class TAShirtGraphicModule : BaseTopGraphicModule
     {
 	    public TAShirtGraphicModule(
+		    IBitmapService bitmapService,
 		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(discordService, fileSystem)
+		    : base(bitmapService, discordService, fileSystem)
         {
 		    
 	    }

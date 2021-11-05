@@ -9,9 +9,10 @@ namespace XLGraphicBot.modules.tops
 	public class TLSweaterGraphicModule : BaseTopGraphicModule
     {
 	    public TLSweaterGraphicModule(
+		    IBitmapService bitmapService,
 		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(discordService, fileSystem)
+		    : base(bitmapService, discordService, fileSystem)
         {
 		    
 	    }
