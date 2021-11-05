@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.IO.Abstractions;
-using System.Net.Http;
 using System.Threading.Tasks;
 using XLGraphicBot.modules;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot
 {
@@ -20,10 +20,10 @@ namespace XLGraphicBot
     public class DeckGraphicModule : BaseGraphicModule
     {
 	    public DeckGraphicModule(
-			IFileSystem fileSystem,
-			IHttpClientFactory httpClientFactory)
-			: base(fileSystem, httpClientFactory)
-		{
+		    IBitmapService bitmapService,
+		    IFileSystem fileSystem)
+		    : base(bitmapService, fileSystem)
+        {
 
 		}
 

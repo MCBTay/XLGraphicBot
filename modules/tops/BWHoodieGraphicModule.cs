@@ -1,17 +1,17 @@
 using Discord.Commands;
 using System.Drawing;
 using System.IO.Abstractions;
-using System.Net.Http;
 using System.Threading.Tasks;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot
 {
-    public class BWHoodieGraphicModule : BaseTopGraphicModule
+	public class BWHoodieGraphicModule : BaseTopGraphicModule
     {
 	    public BWHoodieGraphicModule(
-		    IFileSystem fileSystem,
-		    IHttpClientFactory httpClientFactory)
-		    : base(fileSystem, httpClientFactory)
+		    IBitmapService bitmapService,
+		    IFileSystem fileSystem)
+		    : base(bitmapService, fileSystem)
         {
 		    
 	    }

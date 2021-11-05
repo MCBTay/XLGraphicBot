@@ -5,9 +5,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Abstractions;
-using System.Net.Http;
 using System.Threading.Tasks;
 using XLGraphicBot.modules;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot
 {
@@ -25,9 +25,9 @@ namespace XLGraphicBot
         private Bitmap shirt;
 
         public BaseTopGraphicModule(
-	        IFileSystem fileSystem,
-	        IHttpClientFactory httpClientFactory)
-	        : base(fileSystem, httpClientFactory)
+            IBitmapService bitmapService,
+	        IFileSystem fileSystem)
+	        : base(bitmapService, fileSystem)
         {
 
         }

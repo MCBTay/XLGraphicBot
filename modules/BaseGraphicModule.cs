@@ -1,10 +1,9 @@
-﻿using System.Drawing;
+﻿using Discord;
+using Discord.Commands;
+using System.Drawing;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
 using XLGraphicBot.services;
 
 namespace XLGraphicBot.modules
@@ -13,48 +12,30 @@ namespace XLGraphicBot.modules
 	{
 		protected readonly IBitmapService _bitmapService;
 		protected readonly IFileSystem _fileSystem;
-		protected readonly IHttpClientFactory _httpClientFactory;
 
 		public BaseGraphicModule(
 			IBitmapService bitmapService,
-			IFileSystem fileSystem, 
-			IHttpClientFactory httpClientFactory)
+			IFileSystem fileSystem)
 		{
 			_bitmapService = bitmapService;
 			_fileSystem = fileSystem;
-			_httpClientFactory = httpClientFactory;
 		}
 
 		public async Task<(Bitmap Image, string fileName)> GetMostRecentImage(ICommandContext context)
 		{
-			Bitmap image = null;
-			var fileName = string.Empty;
-
 			var messages = await context.Channel.GetMessagesAsync(20).FlattenAsync();
-			if (messages == null || !messages.Any()) return (image, fileName);
+			if (messages == null || !messages.Any()) return (null, string.Empty);
 
 			var attachmentMessage = messages.FirstOrDefault(x => x.Attachments.Any() && x.Author.Id != context.Client.CurrentUser.Id);
 			var attachment = attachmentMessage?.Attachments?.FirstOrDefault();
-			if (attachment == null) return (image, fileName);
+			if (attachment == null) return (null, string.Empty);
 
 			// these will be null according to spec if not an image
-			if (attachment.Height == null || attachment.Width == null) return (image, fileName);
+			if (attachment.Height == null || attachment.Width == null) return (null, string.Empty);
 
-			fileName = attachment.Filename;
+			var image = await _bitmapService.CreateBitmap(attachment.Url, attachment.Filename);
 
-			using (var client = _httpClientFactory.CreateClient())
-			{
-				var bytes = await client.GetByteArrayAsync(attachment.Url);
-
-				var directory = "./img/download/";
-				if (!_fileSystem.Directory.Exists(directory)) _fileSystem.Directory.CreateDirectory(directory);
-
-				var filePath = $"{directory}{fileName}";
-				await _fileSystem.File.WriteAllBytesAsync(filePath, bytes);
-				image = _bitmapService.CreateBitmap(filePath);
-			}
-
-			return (image, fileName);
+			return (image, attachment.Filename);
 		}
 
 		public void DeleteFile(string filepath)

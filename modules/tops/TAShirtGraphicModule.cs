@@ -3,15 +3,16 @@ using System.Drawing;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot
 {
 	public class TAShirtGraphicModule : BaseTopGraphicModule
     {
 	    public TAShirtGraphicModule(
-		    IFileSystem fileSystem,
-		    IHttpClientFactory httpClientFactory)
-		    : base(fileSystem, httpClientFactory)
+		    IBitmapService bitmapService,
+		    IFileSystem fileSystem)
+		    : base(bitmapService, fileSystem)
         {
 		    
 	    }
