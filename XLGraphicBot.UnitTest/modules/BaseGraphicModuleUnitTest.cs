@@ -8,9 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using XLGraphicBot.modules;
 using XLGraphicBot.services;
@@ -25,11 +22,11 @@ namespace XLGraphicBot.UnitTest.modules
 		#region GetMostRecentImage tests
 		[Theory, AutoMoqData]
 		public async Task GetMostRecentImage_NoMessages(
-      Mock<ISelfUser> mockSelfUser,
+			Mock<ISelfUser> mockSelfUser,
 			[Frozen] Mock<ICommandContext> mockCommandContext,
 			BaseGraphicModule sut)
 		{
-      mockCommandContext.SetupCommandContext(mockSelfUser.Object);
+			mockCommandContext.SetupCommandContext(mockSelfUser.Object);
 
 			(Bitmap image, string filename) = await sut.GetMostRecentImage(mockCommandContext.Object);
 
@@ -47,9 +44,9 @@ namespace XLGraphicBot.UnitTest.modules
 		{
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
-      messages.SetupMessages(mockSelfUser.Object.Id);
+			messages.SetupMessages(mockSelfUser.Object.Id);
 
-      mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
+			mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
 
 			(Bitmap image, string filename) = await sut.GetMostRecentImage(mockCommandContext.Object);
 
@@ -70,7 +67,7 @@ namespace XLGraphicBot.UnitTest.modules
 		{
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
-      messages.SetupMessages(otherUserId);
+			messages.SetupMessages(otherUserId);
 
 			mockDiscordClient
 				.SetupGet(x => x.CurrentUser)
@@ -118,7 +115,7 @@ namespace XLGraphicBot.UnitTest.modules
 
 			mockCommandContext
 				.SetupGet(x => x.Client)
-        .Returns(mockDiscordClient.Object);
+				.Returns(mockDiscordClient.Object);
 
 			mockMessageChannel
 				.Setup(x => x.GetMessagesAsync(
@@ -138,7 +135,7 @@ namespace XLGraphicBot.UnitTest.modules
 		}
 
 		[Theory, AutoMoqData]
-		public async Task GetMostRecentImage_FoundAttachment_WrittenSuccesfully(
+		public async Task GetMostRecentImage_FoundAttachment_WrittenSuccessfully(
 			List<List<IMessage>> messages,
 			Mock<ISelfUser> mockSelfUser,
 			ulong selfUserId,
@@ -151,9 +148,9 @@ namespace XLGraphicBot.UnitTest.modules
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
 			attachments.SetupAttachments();
-      messages.SetupMessages(otherUserId, attachments);
+			messages.SetupMessages(otherUserId, attachments);
 
-      mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
+			mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
 
 			mockBitmapService
 				.Setup(x => x.CreateBitmap(It.IsAny<string>(), It.IsAny<string>()))
