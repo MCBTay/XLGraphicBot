@@ -2,7 +2,6 @@ using Discord.Commands;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
 using XLGraphicBot.services;
@@ -20,17 +19,20 @@ namespace XLGraphicBot.modules
     public class DeckGraphicModule : BaseGraphicModule
     {
 	    public DeckGraphicModule(
+            IBitmapService bitmapService,
 		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(discordService, fileSystem)
-        {
+		    : base(bitmapService, discordService, fileSystem)
+	    {
 
-		}
+	    }
 
 		[Command("deck")]
         [Summary("Applies the SkaterXL deck template to the most recent image.")]
         public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
         {
+	        arguments ??= new DeckGraphicModuleArguments();
+
             Bitmap attachmentImage = null;
             Bitmap template = null;
             Bitmap deck = null;
@@ -49,36 +51,14 @@ namespace XLGraphicBot.modules
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
                 template = new Bitmap("./img/templates/deck.png");
-                if (template == null) return;
 
-                deck = new Bitmap(template.Width, template.Height);
+                deck = _bitmapService.ApplyGraphicToTemplate(template, attachmentImage, new Rectangle(0, 694, template.Width, 482), arguments.MaintainAspectRatio);
 
-                using (Graphics g = Graphics.FromImage(deck)) 
+                if (arguments.IncludeWear)
                 {
-                    g.Clear(Color.Transparent);
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+	                wearTemplate = new Bitmap("./img/templates/wear.png");
 
-                    Rectangle scaledRect;
-                    if (arguments != null && !arguments.MaintainAspectRatio)
-                    {
-                        scaledRect = new Rectangle(0, 694, template.Width, 482);
-                    }
-                    else 
-                    {
-                        scaledRect = ScaleImage(attachmentImage.Width, attachmentImage.Height, new Rectangle(0, 694, template.Width, 482));
-                    }
-                    
-                    g.DrawImage(attachmentImage, scaledRect);
-                    g.DrawImage(template, 0, 0, template.Width, template.Height);
-
-                    if (arguments != null && arguments.IncludeWear)
-                    {
-                        wearTemplate = new Bitmap("./img/templates/wear.png");
-                        if (wearTemplate != null)
-                        {
-                            g.DrawImage(wearTemplate, 0, 0, template.Width, template.Height);
-                        }
-                    }
+	                deck = _bitmapService.ApplyGraphicToTemplate(deck, wearTemplate, new Rectangle(0, 0, template.Width, template.Height));
                 }
 
                 var deckDirectory = "./img/generated/";
