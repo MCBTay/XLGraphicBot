@@ -27,9 +27,9 @@ namespace XLGraphicBot.modules.tops
         private Bitmap shirt;
 
         public BaseTopGraphicModule(
-            IBitmapService bitmapService,
+            IDiscordService discordService,
 	        IFileSystem fileSystem)
-	        : base(bitmapService, fileSystem)
+	        : base(discordService, fileSystem)
         {
 
         }
@@ -43,7 +43,7 @@ namespace XLGraphicBot.modules.tops
 
             try
             {
-                (attachmentImage, attachmentFileName) = await GetMostRecentImage(Context);
+                (attachmentImage, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";

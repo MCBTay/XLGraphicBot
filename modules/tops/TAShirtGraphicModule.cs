@@ -1,7 +1,6 @@
 using Discord.Commands;
 using System.Drawing;
 using System.IO.Abstractions;
-using System.Net.Http;
 using System.Threading.Tasks;
 using XLGraphicBot.services;
 
@@ -10,9 +9,9 @@ namespace XLGraphicBot.modules.tops
 	public class TAShirtGraphicModule : BaseTopGraphicModule
     {
 	    public TAShirtGraphicModule(
-		    IBitmapService bitmapService,
+		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(bitmapService, fileSystem)
+		    : base(discordService, fileSystem)
         {
 		    
 	    }

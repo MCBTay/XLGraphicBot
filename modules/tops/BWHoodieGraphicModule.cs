@@ -9,9 +9,9 @@ namespace XLGraphicBot.modules.tops
 	public class BWHoodieGraphicModule : BaseTopGraphicModule
     {
 	    public BWHoodieGraphicModule(
-		    IBitmapService bitmapService,
+		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(bitmapService, fileSystem)
+		    : base(discordService, fileSystem)
         {
 		    
 	    }

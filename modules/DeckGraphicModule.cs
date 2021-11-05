@@ -3,15 +3,13 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.IO;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
-using XLGraphicBot.modules;
 using XLGraphicBot.services;
 
 namespace XLGraphicBot.modules
 {
-    [ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
 	[NamedArgumentType]
     public class DeckGraphicModuleArguments 
     {
@@ -22,9 +20,9 @@ namespace XLGraphicBot.modules
     public class DeckGraphicModule : BaseGraphicModule
     {
 	    public DeckGraphicModule(
-		    IBitmapService bitmapService,
+		    IDiscordService discordService,
 		    IFileSystem fileSystem)
-		    : base(bitmapService, fileSystem)
+		    : base(discordService, fileSystem)
         {
 
 		}
@@ -45,7 +43,7 @@ namespace XLGraphicBot.modules
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await GetMostRecentImage(Context);
+                (attachmentImage, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
                 if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
@@ -60,7 +58,7 @@ namespace XLGraphicBot.modules
                     g.Clear(Color.Transparent);
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-                    var scaledRect = new Rectangle();
+                    Rectangle scaledRect;
                     if (arguments != null && !arguments.MaintainAspectRatio)
                     {
                         scaledRect = new Rectangle(0, 694, template.Width, 482);
