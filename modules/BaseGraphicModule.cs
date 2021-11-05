@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using System.Drawing;
 using System.IO.Abstractions;
+using System.Threading.Tasks;
 using XLGraphicBot.services;
 
 namespace XLGraphicBot.modules
@@ -57,6 +58,16 @@ namespace XLGraphicBot.modules
 			
 			//TODO: if neither of the above two conditions are true, we can scale the iamge using the same ratio in both directions
 			return rectangle;
+		}
+
+		protected async Task WriteFileAndSend(Bitmap bitmap, string filename)
+		{
+			var generatedDirectory = "./img/generated/";
+			if (!_fileSystem.Directory.Exists(generatedDirectory)) _fileSystem.Directory.CreateDirectory(generatedDirectory);
+
+			var filePath = $"{generatedDirectory}{filename}";
+
+			await _discordService.SendFileAsync(Context, bitmap, filePath);
 		}
 	}
 }

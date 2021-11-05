@@ -61,12 +61,7 @@ namespace XLGraphicBot.modules
 	                deck = _bitmapService.ApplyGraphicToTemplate(deck, wearTemplate, new Rectangle(0, 0, template.Width, template.Height));
                 }
 
-                var deckDirectory = "./img/generated/";
-                if (!_fileSystem.Directory.Exists(deckDirectory)) _fileSystem.Directory.CreateDirectory(deckDirectory);
-
-                deckFilePath = $"{deckDirectory}Deck_{attachmentFileName}.png";
-
-                await _discordService.SendFileAsync(Context, deck, deckFilePath);
+                await WriteFileAndSend(deck, "Deck_{attachmentFileName}.png");
             }
             catch (Exception ex)
             {
