@@ -56,7 +56,7 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       shell: powershell
       run: |
-        .\.sonar\scanner\dotnet-sonarscanner begin /k:"MCBTay_XLGraphicBot" /o:"mcbtay" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /s:$GITHUB_WORKSPACE/SonarQube.Analysis.xml
+        .\.sonar\scanner\dotnet-sonarscanner begin /k:"MCBTay_XLGraphicBot" /o:"mcbtay" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /s:SonarQube.Analysis.xml
         dotnet build --no-restore
         dotnet test --no-build --verbosity normal --settings coverlet.runsettings --logger:trx
         .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
