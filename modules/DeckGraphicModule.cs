@@ -41,7 +41,6 @@ namespace XLGraphicBot.modules
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
 
-            string deckFileName = string.Empty;
             string deckFilePath = string.Empty;
 
             try 
@@ -85,7 +84,7 @@ namespace XLGraphicBot.modules
                 }
 
                 var deckDirectory = "./img/generated/";
-                if (!Directory.Exists(deckDirectory)) Directory.CreateDirectory(deckDirectory);
+                if (!_fileSystem.Directory.Exists(deckDirectory)) _fileSystem.Directory.CreateDirectory(deckDirectory);
 
                 deckFilePath = $"{deckDirectory}Deck_{attachmentFileName}.png";
                 deck.Save(deckFilePath, System.Drawing.Imaging.ImageFormat.Png);
