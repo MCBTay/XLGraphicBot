@@ -1,5 +1,6 @@
 using Discord.Commands;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 using XLGraphicBot.modules;
 using XLGraphicBot.services;
 
-namespace XLGraphicBot
+namespace XLGraphicBot.modules
 {
+    [ExcludeFromCodeCoverage]
 	[NamedArgumentType]
     public class DeckGraphicModuleArguments 
     {

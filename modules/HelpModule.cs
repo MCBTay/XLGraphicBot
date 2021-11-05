@@ -2,7 +2,7 @@ using Discord.Commands;
 using System.Threading.Tasks;
 using XLGraphicBot.services;
 
-namespace XLGraphicBot
+namespace XLGraphicBot.modules
 {
 	[Group("graphicbot")]
     public class HelpModule : ModuleBase<SocketCommandContext>

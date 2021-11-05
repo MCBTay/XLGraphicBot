@@ -1,5 +1,6 @@
 using Discord.Commands;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -9,8 +10,9 @@ using System.Threading.Tasks;
 using XLGraphicBot.modules;
 using XLGraphicBot.services;
 
-namespace XLGraphicBot
+namespace XLGraphicBot.modules.tops
 {
+    [ExcludeFromCodeCoverage]
 	[NamedArgumentType]
     public class BaseTopGraphicModuleArguments 
     {

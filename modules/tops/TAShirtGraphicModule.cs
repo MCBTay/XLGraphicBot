@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using XLGraphicBot.services;
 
-namespace XLGraphicBot
+namespace XLGraphicBot.modules.tops
 {
 	public class TAShirtGraphicModule : BaseTopGraphicModule
     {

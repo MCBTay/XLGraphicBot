@@ -4,7 +4,7 @@ using System.IO.Abstractions;
 using System.Threading.Tasks;
 using XLGraphicBot.services;
 
-namespace XLGraphicBot
+namespace XLGraphicBot.modules.tops
 {
 	public class AlphaMShirtGraphicModule : BaseTopGraphicModule
     {
