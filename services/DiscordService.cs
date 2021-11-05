@@ -1,14 +1,15 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using Discord;
 
 namespace XLGraphicBot.services
 {
 	public interface IDiscordService
 	{
 		Task<(Bitmap Image, string fileName)> GetMostRecentImage(ICommandContext context);
+		Task<IUserMessage> SendFileAsync(ICommandContext commandContext, Bitmap bitmap, string filePath);
 	}
 
 	public class DiscordService : IDiscordService
@@ -35,6 +36,13 @@ namespace XLGraphicBot.services
 			var image = await _bitmapService.CreateBitmap(attachment.Url, attachment.Filename);
 
 			return (image, attachment.Filename);
+		}
+
+		public async Task<IUserMessage> SendFileAsync(ICommandContext commandContext, Bitmap bitmap, string filePath)
+		{
+			_bitmapService.WriteBitmap(bitmap, filePath, System.Drawing.Imaging.ImageFormat.Png);
+
+			return await commandContext.Channel.SendFileAsync(filePath);
 		}
 	}
 }

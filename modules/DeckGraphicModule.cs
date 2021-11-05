@@ -87,9 +87,7 @@ namespace XLGraphicBot.modules
 
                 deckFilePath = $"{deckDirectory}Deck_{attachmentFileName}.png";
 
-                _bitmapService.WriteBitmap(deck, deckFilePath, System.Drawing.Imaging.ImageFormat.Png);
-
-                await Context.Channel.SendFileAsync(deckFilePath);
+                await _discordService.SendFileAsync(Context, deck, deckFilePath);
             }
             catch (Exception ex)
             {
