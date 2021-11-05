@@ -5,18 +5,22 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot.modules
 {
 	public class BaseGraphicModule : ModuleBase<SocketCommandContext>
 	{
+		protected readonly IBitmapService _bitmapService;
 		protected readonly IFileSystem _fileSystem;
 		protected readonly IHttpClientFactory _httpClientFactory;
 
 		public BaseGraphicModule(
+			IBitmapService bitmapService,
 			IFileSystem fileSystem, 
 			IHttpClientFactory httpClientFactory)
 		{
+			_bitmapService = bitmapService;
 			_fileSystem = fileSystem;
 			_httpClientFactory = httpClientFactory;
 		}
@@ -47,7 +51,7 @@ namespace XLGraphicBot.modules
 
 				var filePath = $"{directory}{fileName}";
 				await _fileSystem.File.WriteAllBytesAsync(filePath, bytes);
-				image = new Bitmap(filePath);
+				image = _bitmapService.CreateBitmap(filePath);
 			}
 
 			return (image, fileName);
