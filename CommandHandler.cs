@@ -22,6 +22,7 @@ namespace XLGraphicBot
 		{
 			_serviceProvider = new ServiceCollection()
 				.AddHttpClient()
+				.AddSingleton<IBitmapService, BitmapService>()
 				.AddScoped<IFileSystem, FileSystem>()
 				.AddSingleton<IHelpService, HelpService>()
 				.BuildServiceProvider();
