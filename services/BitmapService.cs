@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace XLGraphicBot.services
 	public interface IBitmapService
 	{
 		Task<Bitmap> CreateBitmap(string url, string filename);
+		void WriteBitmap(Bitmap bitmap, string filePath, ImageFormat imageFormat);
 	}
 
 	public class BitmapService : IBitmapService
@@ -40,6 +42,11 @@ namespace XLGraphicBot.services
 			}
 
 			return bitmap;
+		}
+
+		public void WriteBitmap(Bitmap bitmap, string filePath, ImageFormat imageFormat)
+		{
+			bitmap.Save(filePath, imageFormat);
 		}
 	}
 }
