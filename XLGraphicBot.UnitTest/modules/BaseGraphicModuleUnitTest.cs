@@ -40,10 +40,8 @@ namespace XLGraphicBot.UnitTest.modules
 		[Theory, AutoMoqData]
 		public async Task GetMostRecentImage_MessagesMatchCurrentUser(
 			List<List<IMessage>> messages,
-			Mock<IDiscordClient> mockDiscordClient,
 			Mock<ISelfUser> mockSelfUser,
 			ulong selfUserId,
-			Mock<IMessageChannel> mockMessageChannel,
 			[Frozen] Mock<ICommandContext> mockCommandContext,
 			BaseGraphicModule sut)
 		{
