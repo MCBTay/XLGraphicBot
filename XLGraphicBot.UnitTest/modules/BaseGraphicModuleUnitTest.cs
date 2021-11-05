@@ -25,20 +25,11 @@ namespace XLGraphicBot.UnitTest.modules
 		#region GetMostRecentImage tests
 		[Theory, AutoMoqData]
 		public async Task GetMostRecentImage_NoMessages(
-			Mock<IMessageChannel> mockMessageChannel,
+      Mock<ISelfUser> mockSelfUser,
 			[Frozen] Mock<ICommandContext> mockCommandContext,
 			BaseGraphicModule sut)
 		{
-			mockMessageChannel
-				.Setup(x => x.GetMessagesAsync(
-					It.IsAny<int>(),
-					It.IsAny<CacheMode>(),
-					It.IsAny<RequestOptions>()))
-				.Returns(new List<List<IMessage>>().ToAsyncEnumerable());
-
-			mockCommandContext
-				.SetupGet(x => x.Channel)
-				.Returns(mockMessageChannel.Object);
+      mockCommandContext.SetupCommandContext(mockSelfUser.Object);
 
 			(Bitmap image, string filename) = await sut.GetMostRecentImage(mockCommandContext.Object);
 
@@ -58,33 +49,9 @@ namespace XLGraphicBot.UnitTest.modules
 		{
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
-			foreach (var messageList in messages)
-			{
-				foreach (var message in messageList)
-				{
-					Mock.Get(message.Author)
-						.SetupGet(x => x.Id)
-						.Returns(mockSelfUser.Object.Id);
-				}
-			}
+      messages.SetupMessages(mockSelfUser.Object.Id);
 
-			mockDiscordClient
-				.SetupGet(x => x.CurrentUser)
-				.Returns(mockSelfUser.Object);
-
-			mockCommandContext
-				.SetupGet(x => x.Client).Returns(mockDiscordClient.Object);
-
-			mockMessageChannel
-				.Setup(x => x.GetMessagesAsync(
-					It.IsAny<int>(),
-					It.IsAny<CacheMode>(),
-					It.IsAny<RequestOptions>()))
-				.Returns(messages.ToAsyncEnumerable());
-
-			mockCommandContext
-				.SetupGet(x => x.Channel)
-				.Returns(mockMessageChannel.Object);
+      mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
 
 			(Bitmap image, string filename) = await sut.GetMostRecentImage(mockCommandContext.Object);
 
@@ -105,15 +72,7 @@ namespace XLGraphicBot.UnitTest.modules
 		{
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
-			foreach (var messageList in messages)
-			{
-				foreach (var message in messageList)
-				{
-					Mock.Get(message.Author)
-						.SetupGet(x => x.Id)
-						.Returns(otherUserId);
-				}
-			}
+      messages.SetupMessages(otherUserId);
 
 			mockDiscordClient
 				.SetupGet(x => x.CurrentUser)
@@ -146,33 +105,22 @@ namespace XLGraphicBot.UnitTest.modules
 			Mock<ISelfUser> mockSelfUser,
 			ulong selfUserId,
 			ulong otherUserId,
-			IReadOnlyList<IAttachment> attachments,
+			List<IAttachment> attachments,
 			Mock<IMessageChannel> mockMessageChannel,
 			[Frozen] Mock<ICommandContext> mockCommandContext,
 			BaseGraphicModule sut)
 		{
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
-			foreach (var messageList in messages)
-			{
-				foreach (var message in messageList)
-				{
-					Mock.Get(message.Author)
-						.SetupGet(x => x.Id)
-						.Returns(otherUserId);
-
-					Mock.Get(message)
-						.SetupGet(x => x.Attachments)
-						.Returns(attachments);
-				}
-			}
+			messages.SetupMessages(otherUserId, attachments);
 
 			mockDiscordClient
 				.SetupGet(x => x.CurrentUser)
 				.Returns(mockSelfUser.Object);
 
 			mockCommandContext
-				.SetupGet(x => x.Client).Returns(mockDiscordClient.Object);
+				.SetupGet(x => x.Client)
+        .Returns(mockDiscordClient.Object);
 
 			mockMessageChannel
 				.Setup(x => x.GetMessagesAsync(
@@ -194,57 +142,20 @@ namespace XLGraphicBot.UnitTest.modules
 		[Theory, AutoMoqData]
 		public async Task GetMostRecentImage_FoundAttachment_WrittenSuccesfully(
 			List<List<IMessage>> messages,
-			Mock<IDiscordClient> mockDiscordClient,
 			Mock<ISelfUser> mockSelfUser,
 			ulong selfUserId,
 			ulong otherUserId,
-			IReadOnlyList<IAttachment> attachments,
-			Mock<IMessageChannel> mockMessageChannel,
+			List<IAttachment> attachments,
 			[Frozen] Mock<IBitmapService> mockBitmapService,
 			[Frozen] Mock<ICommandContext> mockCommandContext,
 			BaseGraphicModule sut)
 		{
 			mockSelfUser.SetupGet(x => x.Id).Returns(selfUserId);
 
-			foreach (var messageList in messages)
-			{
-				foreach (var message in messageList)
-				{
-					Mock.Get(message.Author)
-						.SetupGet(x => x.Id)
-						.Returns(otherUserId);
+			attachments.SetupAttachments();
+      messages.SetupMessages(otherUserId, attachments);
 
-					Mock.Get(message)
-						.SetupGet(x => x.Attachments)
-						.Returns(attachments);
-				}
-			}
-
-			foreach (var attachment in attachments)
-			{
-				Mock.Get(attachment).SetupGet(x => x.Height).Returns(100);
-				Mock.Get(attachment).SetupGet(x => x.Width).Returns(100);
-				Mock.Get(attachment).SetupGet(x => x.Url).Returns("http://www.google.com");
-				Mock.Get(attachment).SetupGet(x => x.Filename).Returns("image.png");
-			}
-
-			mockDiscordClient
-				.SetupGet(x => x.CurrentUser)
-				.Returns(mockSelfUser.Object);
-
-			mockCommandContext
-				.SetupGet(x => x.Client).Returns(mockDiscordClient.Object);
-
-			mockMessageChannel
-				.Setup(x => x.GetMessagesAsync(
-					It.IsAny<int>(),
-					It.IsAny<CacheMode>(),
-					It.IsAny<RequestOptions>()))
-				.Returns(messages.ToAsyncEnumerable());
-
-			mockCommandContext
-				.SetupGet(x => x.Channel)
-				.Returns(mockMessageChannel.Object);
+      mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
 
 			mockBitmapService
 				.Setup(x => x.CreateBitmap(It.IsAny<string>(), It.IsAny<string>()))
@@ -261,7 +172,7 @@ namespace XLGraphicBot.UnitTest.modules
 		[Theory]
 		[InlineAutoMoqData(null)]
 		[InlineAutoMoqData("")]
-		public async Task DeleteFile_InvalidFilePath(
+		public void DeleteFile_InvalidFilePath(
 			string filepath,
 			[Frozen] Mock<IFileSystem> mockFileSystem,
 			BaseGraphicModule sut)
@@ -272,7 +183,7 @@ namespace XLGraphicBot.UnitTest.modules
 		}
 
 		[Theory, AutoMoqData]
-		public async Task DeleteFile_FileDoesNotExist(
+		public void DeleteFile_FileDoesNotExist(
 			string filepath,
 			[Frozen] Mock<IFileSystem> mockFileSystem,
 			BaseGraphicModule sut)
@@ -285,7 +196,7 @@ namespace XLGraphicBot.UnitTest.modules
 		}
 
 		[Theory, AutoMoqData]
-		public async Task DeleteFile_FileExists(
+		public void DeleteFile_FileExists(
 			string filepath,
 			[Frozen] Mock<IFileSystem> mockFileSystem,
 			BaseGraphicModule sut)
@@ -332,18 +243,5 @@ namespace XLGraphicBot.UnitTest.modules
 			actual.Should().Be(new Rectangle(125, 0, 250, 500));
 		}
 		#endregion
-
-		public class HttpMessageHandlerStub : HttpMessageHandler
-		{
-			protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-			{
-				var responseMessage = new HttpResponseMessage(HttpStatusCode.OK)
-				{
-					Content = new StringContent("This is a reply")
-				};
-
-				return await Task.FromResult(responseMessage);
-			}
-		}
 	}
 }
