@@ -1,6 +1,19 @@
 # XLGraphicBot
 A simple Discord bot utilizing [Discord.Net](https://github.com/discord-net/Discord.Net) to make deck and shirt graphics for SkaterXL based on recently posted images.
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=bugs)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=coverage)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=MCBTay_XLGraphicBot&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=MCBTay_XLGraphicBot)
+
 XLGraphicBot allows you to take images posted in a channel and turn them into a deck or shirt immediately for SkaterXL.
 - `!deck` - Takes the most recent image and places it on a deck template.  For more info, run `!graphicbot help deck`.
 - `!alphamshirt`/`!bwhoodie`/`!esshirt`/`!mhoodie`/`!mshirt`/`!msweater`/`!tashirt`/`!tlsweater` - Takes the most recent image and places it on the appropriate shirt/sweater template.  For more info, run `!graphicbot help tops`
