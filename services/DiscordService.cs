@@ -33,7 +33,7 @@ namespace XLGraphicBot.services
 			// these will be null according to spec if not an image
 			if (attachment.Height == null || attachment.Width == null) return (null, string.Empty);
 
-			var image = await _bitmapService.CreateBitmap(attachment.Url, attachment.Filename);
+			var image = await _bitmapService.CreateBitmapFromUrl(attachment.Url, attachment.Filename);
 
 			return (image, attachment.Filename);
 		}
