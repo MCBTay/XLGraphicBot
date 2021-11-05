@@ -18,6 +18,8 @@ namespace XLGraphicBot.modules
     
     public class DeckGraphicModule : BaseGraphicModule
     {
+	    private Bitmap WearTemplate;
+        
 	    public DeckGraphicModule(
             IBitmapService bitmapService,
 		    IDiscordService discordService,
@@ -32,12 +34,7 @@ namespace XLGraphicBot.modules
         public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
         {
 	        arguments ??= new DeckGraphicModuleArguments();
-
-            Bitmap attachmentImage = null;
-            Bitmap template = null;
-            Bitmap deck = null;
-            Bitmap wearTemplate = null;
-
+            
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
 
@@ -45,23 +42,23 @@ namespace XLGraphicBot.modules
 
             try 
             {
-                (attachmentImage, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
-                if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
+                (Graphic, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
+                if (Graphic == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
-                template = new Bitmap("./img/templates/deck.png");
+                Template = new Bitmap("./img/templates/deck.png");
 
-                deck = _bitmapService.ApplyGraphicToTemplate(template, attachmentImage, new Rectangle(0, 694, template.Width, 482), arguments.MaintainAspectRatio);
+                ResultGraphic = _bitmapService.ApplyGraphicToTemplate(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.MaintainAspectRatio);
 
                 if (arguments.IncludeWear)
                 {
-	                wearTemplate = new Bitmap("./img/templates/wear.png");
+	                WearTemplate = new Bitmap("./img/templates/wear.png");
 
-	                deck = _bitmapService.ApplyGraphicToTemplate(deck, wearTemplate, new Rectangle(0, 0, template.Width, template.Height));
+	                ResultGraphic = _bitmapService.ApplyGraphicToTemplate(ResultGraphic, WearTemplate, new Rectangle(0, 0, Template.Width, Template.Height));
                 }
 
-                await WriteFileAndSend(deck, "Deck_{attachmentFileName}.png");
+                deckFilePath = await WriteFileAndSend(ResultGraphic, $"Deck_{attachmentFileName}.png");
             }
             catch (Exception ex)
             {
@@ -70,10 +67,15 @@ namespace XLGraphicBot.modules
             }
             finally 
             {
-                attachmentImage?.Dispose();
-                template?.Dispose();
-                deck?.Dispose();
-                wearTemplate?.Dispose();
+                Graphic?.Dispose();
+                Template?.Dispose();
+                ResultGraphic?.Dispose();
+                WearTemplate?.Dispose();
+
+                Graphic = null;
+                Template = null;
+                ResultGraphic = null;
+                WearTemplate = null;
 
                 DeleteFile(attachmentFilePath);
                 DeleteFile(deckFilePath);
