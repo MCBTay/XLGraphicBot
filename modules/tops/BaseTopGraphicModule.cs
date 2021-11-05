@@ -39,7 +39,6 @@ namespace XLGraphicBot.modules.tops
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
 
-            string shirtFileName = string.Empty;
             string shirtFilePath = string.Empty;
 
             try
@@ -63,12 +62,9 @@ namespace XLGraphicBot.modules.tops
 
                     ReplaceTemplateColor(arguments?.Color);
 
-                    var scaledRect = new Rectangle();
-                    if (arguments != null && !arguments.MaintainAspectRatio)
-                    {
-                        scaledRect = rectangle;
-                    }
-                    else 
+                    Rectangle scaledRect = rectangle;
+
+                    if (arguments != null && arguments.MaintainAspectRatio)
                     {
                         scaledRect = ScaleImage(attachmentImage.Width, attachmentImage.Height, rectangle);
                     }
@@ -104,16 +100,7 @@ namespace XLGraphicBot.modules.tops
         {
             if (string.IsNullOrEmpty(color)) return;
 	                
-            Color parsedColor = Color.White;
-
-            if (color.StartsWith('#')) 
-            {
-                parsedColor = ColorTranslator.FromHtml(color);
-            }
-            else 
-            {
-                parsedColor = Color.FromName(color);
-            }		                
+            Color parsedColor = ParseColor(color);
 
             for (int i = 0; i < shirt.Width; i++) 
             {
@@ -127,6 +114,16 @@ namespace XLGraphicBot.modules.tops
                     }
                 }
             }
+        }
+
+        private Color ParseColor(string color)
+        {
+          if (color.StartsWith('#')) 
+          {
+            return ColorTranslator.FromHtml(color);
+          }
+          
+          return Color.FromName(color);
         }
     }
 }
