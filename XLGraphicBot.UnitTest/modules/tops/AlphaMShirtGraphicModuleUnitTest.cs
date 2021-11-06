@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using Moq;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Xunit;
 
 namespace XLGraphicBot.UnitTest.modules.tops
 {
+	[ExcludeFromCodeCoverage]
 	public class AlphaMShirtGraphicModuleUnitTest
 	{
 		[Theory, AutoMoqData]

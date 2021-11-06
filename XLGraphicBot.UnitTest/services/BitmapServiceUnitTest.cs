@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using XLGraphicBot.services;
 using XLGraphicBot.UnitTest.Core;
@@ -6,6 +7,7 @@ using Xunit;
 
 namespace XLGraphicBot.UnitTest.services
 {
+	[ExcludeFromCodeCoverage]
 	public class BitmapServiceUnitTest
 	{
 		[Theory, AutoMoqData]
