@@ -2,9 +2,7 @@ using Discord.Commands;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.IO.Abstractions;
 using System.Threading.Tasks;
-using XLGraphicBot.services;
 
 namespace XLGraphicBot.modules.tops
 {
