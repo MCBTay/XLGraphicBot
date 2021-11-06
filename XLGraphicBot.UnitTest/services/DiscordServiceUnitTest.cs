@@ -151,7 +151,7 @@ namespace XLGraphicBot.UnitTest.services
 			mockCommandContext.SetupCommandContext(mockSelfUser.Object, messages);
 
 			mockBitmapService
-				.Setup(x => x.CreateBitmap(It.IsAny<string>(), It.IsAny<string>()))
+				.Setup(x => x.CreateBitmapFromUrl(It.IsAny<string>(), It.IsAny<string>()))
 				.ReturnsAsync(new Bitmap(100, 100));
 
 			(Bitmap image, string filename) = await sut.GetMostRecentImage(mockCommandContext.Object);
