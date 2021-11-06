@@ -3,7 +3,10 @@ using Discord.Commands;
 using Moq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.IO.Abstractions;
 using System.Linq;
+using XLGraphicBot.services;
 
 namespace XLGraphicBot.UnitTest.Core
 {
@@ -88,6 +91,38 @@ namespace XLGraphicBot.UnitTest.Core
 						.Returns(attachments ?? new List<IAttachment>());
 				}
 			}
+		}
+
+		public static void SetupMockDiscordService(this Mock<IDiscordService> mockDiscordService, Bitmap bitmap, string filename)
+		{
+			mockDiscordService
+				.Setup(x => x.GetMostRecentImage(It.IsAny<ICommandContext>()))
+				.ReturnsAsync((bitmap, filename));
+		}
+
+		public static void SetupFilesExist(this Mock<IFileSystem> mockFileSystem, bool exist = true)
+		{
+			Mock.Get(mockFileSystem.Object.File)
+				.Setup(x => x.Exists(It.IsAny<string>()))
+				.Returns(exist);
+		}
+
+		public static void VerifyGraphicApplied(this Mock<IBitmapService> mockBitmapService, Rectangle rectangle, Times? times = null)
+		{
+			times ??= Times.Once();
+			mockBitmapService.Verify(x => x.ApplyGraphicToTemplate(It.IsAny<Bitmap>(), It.IsAny<Bitmap>(), rectangle, It.IsAny<bool>(), It.IsAny<string>()), times.Value);
+		}
+
+		public static void VerifyFileSent(this Mock<IDiscordService> mockDiscordService, Times? times = null)
+		{
+			times ??= Times.Once();
+			mockDiscordService.Verify(x => x.SendFileAsync(It.IsAny<ICommandContext>(), It.IsAny<Bitmap>(), It.IsAny<string>()), times.Value);
+		}
+
+		public static void VerifyFilesDeleted(this Mock<IFileSystem> mockFileSystem, string filename, string generatedFilename)
+		{
+			mockFileSystem.Verify(x => x.File.Delete($"./img/download/{filename}"), Times.Once());
+			mockFileSystem.Verify(x => x.File.Delete($"./img/generated/{generatedFilename}"), Times.Once());
 		}
 	}
 }
