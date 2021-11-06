@@ -79,7 +79,7 @@ namespace XLGraphicBot.services
 			return result;
 		}
 
-		private void ReplaceTemplateColor(Bitmap result, string color)
+		public static void ReplaceTemplateColor(Bitmap result, string color)
 		{
 			if (string.IsNullOrEmpty(color)) return;
 
@@ -99,7 +99,7 @@ namespace XLGraphicBot.services
 			}
 		}
 
-		private static Color ParseColor(string color)
+		public static Color ParseColor(string color)
 		{
 			return color.StartsWith('#') ? ColorTranslator.FromHtml(color) : Color.FromName(color);
 		}
