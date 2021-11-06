@@ -14,11 +14,11 @@ namespace XLGraphicBot
 		private readonly CommandService _commandService;
 
 		public CommandHandler(
-			IServiceProvider serviceProfider,
+			IServiceProvider serviceProvider,
 			DiscordSocketClient client,
 			CommandService commandService)
 		{
-			_serviceProvider = serviceProfider;
+			_serviceProvider = serviceProvider;
 
 			_client = client;
 			_commandService = commandService;
@@ -46,7 +46,6 @@ namespace XLGraphicBot
 			}
 
 			var context = new SocketCommandContext(_client, message);
-
 			await _commandService.ExecuteAsync(context, argPos, _serviceProvider);
 		}
     }
