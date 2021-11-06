@@ -81,7 +81,88 @@ namespace XLGraphicBot.UnitTest.services
 		}
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_MaintainAspectRatioFalse_NullColor(
+		public void ApplyGraphicToTemplate_UndersizedGraphic_LongerThanWide_MaintainAspectRatioTrue_NullColor(
+			BitmapService sut)
+		{
+			var template = SetupTemplate(100, Brushes.White);
+			var graphic = SetupGraphic(10, 40, Brushes.Red);
+			var rectangle = new Rectangle(25, 25, 50, 50);
+
+			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle);
+
+			actual.Should().NotBeNull();
+
+			for (int i = 0; i < actual.Width; i++)
+			{
+				for (int j = 0; j < actual.Height; j++)
+				{
+					var pixel = actual.GetPixel(i, j);
+
+					if (i >= 44 && i < 56 && j >= 25 && j < 75)
+						// Because the image will stretch, it's hard to know exactly what color it will be.  So we can only assert that it isn't white.
+						pixel.ToArgb().Should().NotBe(Color.White.ToArgb());
+					else
+						pixel.ToArgb().Should().Be(Color.White.ToArgb(), $"i = {i}, j = {j}");
+				}
+			}
+		}
+
+		[Theory, AutoMoqData]
+		public void ApplyGraphicToTemplate_UndersizedGraphic_LongerThanWide_MaintainAspectRatioFalse_NullColor(
+			BitmapService sut)
+		{
+			var template = SetupTemplate(100, Brushes.White);
+			var graphic = SetupGraphic(10, 40, Brushes.Red);
+			var rectangle = new Rectangle(25, 25, 50, 50);
+
+			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle, false);
+
+			actual.Should().NotBeNull();
+
+			for (int i = 0; i < actual.Width; i++)
+			{
+				for (int j = 0; j < actual.Height; j++)
+				{
+					var pixel = actual.GetPixel(i, j);
+
+					if (i >= 25 && i < 75 && j >= 25 && j < 75)
+						// Because the image will stretch, it's hard to know exactly what color it will be.  So we can only assert that it isn't white.
+						pixel.ToArgb().Should().NotBe(Color.White.ToArgb());
+					else
+						pixel.ToArgb().Should().Be(Color.White.ToArgb());
+				}
+			}
+		}
+
+		[Theory, AutoMoqData]
+		public void ApplyGraphicToTemplate_UndersizedGraphic_WiderThanLong_MaintainAspectRatioTrue_NullColor(
+			BitmapService sut)
+		{
+			var template = SetupTemplate(100, Brushes.White);
+			var graphic = SetupGraphic(40, 10, Brushes.Red);
+			var rectangle = new Rectangle(25, 25, 50, 50);
+
+			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle);
+
+			actual.Should().NotBeNull();
+
+			for (int i = 0; i < actual.Width; i++)
+			{
+				for (int j = 0; j < actual.Height; j++)
+				{
+					var pixel = actual.GetPixel(i, j);
+
+					if (i >= 25 && i < 75 && j >= 44 && j < 56)
+						// Because the image will stretch, it's hard to know exactly what color it will be.  So we can only assert that it isn't white.
+						pixel.ToArgb().Should().NotBe(Color.White.ToArgb());
+					else
+						pixel.ToArgb().Should().Be(Color.White.ToArgb(), $"i = {i}, j = {j}");
+				}
+			}
+		}
+
+		[Theory, AutoMoqData]
+		public void ApplyGraphicToTemplate_UndersizedGraphic_WiderThanLong_MaintainAspectRatioFalse_NullColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);
