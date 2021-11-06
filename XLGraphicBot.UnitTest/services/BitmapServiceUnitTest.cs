@@ -203,7 +203,7 @@ namespace XLGraphicBot.UnitTest.services
 			VerifyResult(actual, Color.Blue, Color.Red);
 		}
 
-		private Bitmap SetupTemplate(int size, Brush brush)
+		private static Bitmap SetupTemplate(int size, Brush brush)
 		{
 			var template = new Bitmap(size, size);
 			using Graphics graph = Graphics.FromImage(template);
@@ -212,7 +212,7 @@ namespace XLGraphicBot.UnitTest.services
 			return template;
 		}
 
-		private Bitmap SetupGraphic(int width, int height, Brush brush)
+		private static Bitmap SetupGraphic(int width, int height, Brush brush)
 		{
 			var graphic = new Bitmap(width, height);
 			using Graphics graph = Graphics.FromImage(graphic);
@@ -221,7 +221,7 @@ namespace XLGraphicBot.UnitTest.services
 			return graphic;
 		}
 
-		private void VerifyResult(Bitmap result, Color templateColor, Color graphicColor)
+		private static void VerifyResult(Bitmap result, Color templateColor, Color graphicColor)
 		{
 			for (int i = 0; i < result.Width; i++)
 			{
