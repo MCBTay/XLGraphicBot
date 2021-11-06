@@ -10,7 +10,7 @@ using Xunit;
 
 namespace XLGraphicBot.UnitTest.modules.tops
 {
-	public class BWHoodieGraphicModuleUnitTest : BaseTopGraphicModuleUnitTest
+	public class BWHoodieGraphicModuleUnitTest
 	{
 		[Theory, AutoMoqData]
 		public async Task BWHoodieAsync_HappyPath(
@@ -19,14 +19,14 @@ namespace XLGraphicBot.UnitTest.modules.tops
 			[Frozen] Mock<IDiscordService> mockDiscordService,
 			BWHoodieGraphicModule sut)
 		{
-			SetupFilesExist(mockFileSystem);
-			SetupMockDiscordService(mockDiscordService, new Bitmap(100, 100), "image.png");
+			mockFileSystem.SetupFilesExist();
+			mockDiscordService.SetupMockDiscordService(new Bitmap(100, 100), "image.png");
 
 			await sut.BWHoodieAsync();
 
-			VerifyGraphicApplied(mockBitmapService, new Rectangle(265, 225, 325, 325));
-			VerifyFileSent(mockDiscordService);
-			VerifyFilesDeleted(mockFileSystem, "image.png", "bwhoodie_image.png.png");
+			mockBitmapService.VerifyGraphicApplied(new Rectangle(265, 225, 325, 325));
+			mockDiscordService.VerifyFileSent();
+			mockFileSystem.VerifyFilesDeleted("image.png", "bwhoodie_image.png.png");
 		}
 	}
 }

@@ -10,7 +10,7 @@ using Xunit;
 
 namespace XLGraphicBot.UnitTest.modules.tops
 {
-	public class TLSweaterGraphicModuleUnitTest : BaseTopGraphicModuleUnitTest
+	public class TLSweaterGraphicModuleUnitTest
 	{
 		[Theory, AutoMoqData]
 		public async Task TLSweaterAsync_HappyPath(
@@ -19,14 +19,14 @@ namespace XLGraphicBot.UnitTest.modules.tops
 			[Frozen] Mock<IDiscordService> mockDiscordService,
 			TLSweaterGraphicModule sut)
 		{
-			SetupFilesExist(mockFileSystem);
-			SetupMockDiscordService(mockDiscordService, new Bitmap(100, 100), "image.png");
+			mockFileSystem.SetupFilesExist();
+			mockDiscordService.SetupMockDiscordService(new Bitmap(100, 100), "image.png");
 
 			await sut.TLSweaterAsync();
 
-			VerifyGraphicApplied(mockBitmapService, new Rectangle(1340, 305, 400, 400));
-			VerifyFileSent(mockDiscordService);
-			VerifyFilesDeleted(mockFileSystem, "image.png", "tlsweater_image.png.png");
+			mockBitmapService.VerifyGraphicApplied(new Rectangle(1340, 305, 400, 400));
+			mockDiscordService.VerifyFileSent();
+			mockFileSystem.VerifyFilesDeleted("image.png", "tlsweater_image.png.png");
 		}
 	}
 }
