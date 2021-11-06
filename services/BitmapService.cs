@@ -43,7 +43,7 @@ namespace XLGraphicBot.services
 			var filePath = $"{directory}{filename}";
 			await _fileSystem.File.WriteAllBytesAsync(filePath, bytes);
 			
-			return new Bitmap(filePath);
+			return _fileSystem.File.Exists(filePath) ? new Bitmap(filePath) : new Bitmap(2, 2);
 		}
 
 		public void WriteBitmap(Bitmap bitmap, string filePath, ImageFormat imageFormat)
@@ -71,10 +71,11 @@ namespace XLGraphicBot.services
 				scaledRect = ScaleImage(graphic.Width, graphic.Height, rectangle);
 			}
 
-			ReplaceTemplateColor(result, color);
-
-			g.DrawImage(graphic, scaledRect);
 			g.DrawImage(template, 0, 0, template.Width, template.Height);
+			
+			ReplaceTemplateColor(result, color);
+			
+			g.DrawImage(graphic, scaledRect);
 
 			return result;
 		}
