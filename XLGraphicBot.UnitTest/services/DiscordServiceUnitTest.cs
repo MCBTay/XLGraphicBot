@@ -12,12 +12,14 @@ using XLGraphicBot.modules;
 using XLGraphicBot.services;
 using XLGraphicBot.UnitTest.Core;
 using Xunit;
+using ImageFormat = System.Drawing.Imaging.ImageFormat;
 
 namespace XLGraphicBot.UnitTest.services
 {
 	[ExcludeFromCodeCoverage]
 	public class DiscordServiceUnitTest
 	{
+		#region GetMostRecentImage tests
 		[Theory, AutoMoqData]
 		public async Task GetMostRecentImage_NoMessages(
 			Mock<ISelfUser> mockSelfUser,
@@ -159,5 +161,37 @@ namespace XLGraphicBot.UnitTest.services
 			image.Should().NotBeNull();
 			filename.Should().NotBeNullOrEmpty();
 		}
+		#endregion
+
+		#region SendFileAsync tests
+		[Theory, AutoMoqData]
+		public async Task SendFileAsync(
+			string filePath,
+			[Frozen] Mock<IBitmapService> mockBitmapService,
+			[Frozen] Mock<ICommandContext> mockCommandContext,
+			DiscordService sut)
+		{
+			var bitmap = new Bitmap(100, 100);
+
+			await sut.SendFileAsync(mockCommandContext.Object, bitmap, filePath);
+
+			mockBitmapService.Verify(x => x.WriteBitmap(bitmap, filePath, ImageFormat.Png));
+
+			mockCommandContext.Verify(x => x.Channel.SendFileAsync(filePath, null, false, null, null, false, null, null));
+		}
+		#endregion
+
+		#region SendMessageAsync tests
+		[Theory, AutoMoqData]
+		public async Task SendMessageAsync(
+			string message,
+			[Frozen] Mock<ICommandContext> mockCommandContext,
+			DiscordService sut)
+		{
+			await sut.SendMessageAsync(mockCommandContext.Object, message);
+
+			mockCommandContext.Verify(x => x.Channel.SendMessageAsync(message, false, null, null, null, null));
+		}
+		#endregion
 	}
 }
