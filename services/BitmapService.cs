@@ -13,7 +13,7 @@ namespace XLGraphicBot.services
 
 		void WriteBitmap(Bitmap bitmap, string filePath, ImageFormat imageFormat);
 
-		Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool maintainAspectRatio = true);
+		Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool maintainAspectRatio = true, string color = null);
 
 		Rectangle ScaleImage(int imageWidth, int imageHeight, Rectangle rectangle);
 	}
@@ -51,7 +51,7 @@ namespace XLGraphicBot.services
 			bitmap.Save(filePath, imageFormat);
 		}
 
-		public Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool maintainAspectRatio = true)
+		public Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool maintainAspectRatio = true, string color = null)
 		{
 			var result = new Bitmap(template.Width, template.Height);
 
@@ -71,10 +71,37 @@ namespace XLGraphicBot.services
 				scaledRect = ScaleImage(graphic.Width, graphic.Height, rectangle);
 			}
 
+			ReplaceTemplateColor(result, color);
+
 			g.DrawImage(graphic, scaledRect);
 			g.DrawImage(template, 0, 0, template.Width, template.Height);
 
 			return result;
+		}
+
+		private void ReplaceTemplateColor(Bitmap result, string color)
+		{
+			if (string.IsNullOrEmpty(color)) return;
+
+			Color parsedColor = ParseColor(color);
+
+			for (int i = 0; i < result.Width; i++)
+			{
+				for (int j = 0; j < result.Height; j++)
+				{
+					var pixel = result.GetPixel(i, j);
+
+					if (pixel.R == 255 && pixel.G == 255 && pixel.B == 255)
+					{
+						result.SetPixel(i, j, parsedColor);
+					}
+				}
+			}
+		}
+
+		private static Color ParseColor(string color)
+		{
+			return color.StartsWith('#') ? ColorTranslator.FromHtml(color) : Color.FromName(color);
 		}
 
 		public Rectangle ScaleImage(int imageWidth, int imageHeight, Rectangle rectangle)
