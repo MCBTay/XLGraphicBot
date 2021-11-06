@@ -9,7 +9,17 @@ namespace XLGraphicBot.services
 	public interface IDiscordService
 	{
 		Task<(Bitmap Image, string fileName)> GetMostRecentImage(ICommandContext context);
+
 		Task<IUserMessage> SendFileAsync(ICommandContext commandContext, Bitmap bitmap, string filePath);
+
+		Task<IUserMessage> SendMessageAsync(
+			ICommandContext commandContext, 
+			string message,
+			bool isTTS = false,
+			Embed embed = null,
+			RequestOptions options = null,
+			AllowedMentions allowedMentions = null,
+			MessageReference messageReference = null);
 	}
 
 	public class DiscordService : IDiscordService
@@ -43,6 +53,18 @@ namespace XLGraphicBot.services
 			_bitmapService.WriteBitmap(bitmap, filePath, System.Drawing.Imaging.ImageFormat.Png);
 
 			return await commandContext.Channel.SendFileAsync(filePath);
+		}
+
+		public async Task<IUserMessage> SendMessageAsync(
+			ICommandContext commandContext, 
+			string message,
+			bool isTTS = false,
+			Embed embed = null,
+			RequestOptions options = null,
+			AllowedMentions allowedMentions = null,
+			MessageReference messageReference = null)
+		{
+			return await commandContext.Channel.SendMessageAsync(message, isTTS, embed, options, allowedMentions, messageReference);
 		}
 	}
 }
