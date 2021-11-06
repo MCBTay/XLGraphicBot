@@ -1,31 +1,24 @@
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.IO.Abstractions;
 using System.Reflection;
 using System.Threading.Tasks;
-using XLGraphicBot.services;
 
 namespace XLGraphicBot
 {
 	public class CommandHandler
     {
+		private readonly IServiceProvider _serviceProvider;
+
 		private readonly DiscordSocketClient _client;
 		private readonly CommandService _commandService;
 
-		private readonly IServiceProvider _serviceProvider;
-
 		public CommandHandler(
+			IServiceProvider serviceProfider,
 			DiscordSocketClient client,
 			CommandService commandService)
 		{
-			_serviceProvider = new ServiceCollection()
-				.AddHttpClient()
-				.AddSingleton<IBitmapService, BitmapService>()
-				.AddScoped<IDiscordService, DiscordService>()
-				.AddScoped<IFileSystem, FileSystem>()
-				.BuildServiceProvider();
+			_serviceProvider = serviceProfider;
 
 			_client = client;
 			_commandService = commandService;
@@ -38,7 +31,7 @@ namespace XLGraphicBot
 			await _commandService.AddModulesAsync(Assembly.GetEntryAssembly(), _serviceProvider);
 		}
 
-		private async Task HandleCommandAsync(SocketMessage messageParam)
+		public async Task HandleCommandAsync(SocketMessage messageParam)
 		{
 			var message = messageParam as SocketUserMessage;
 			if (message == null) return;
