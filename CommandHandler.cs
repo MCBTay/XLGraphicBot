@@ -25,7 +25,6 @@ namespace XLGraphicBot
 				.AddSingleton<IBitmapService, BitmapService>()
 				.AddScoped<IDiscordService, DiscordService>()
 				.AddScoped<IFileSystem, FileSystem>()
-				.AddSingleton<IHelpService, HelpService>()
 				.BuildServiceProvider();
 
 			_client = client;
