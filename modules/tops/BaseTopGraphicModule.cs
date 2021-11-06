@@ -18,15 +18,6 @@ namespace XLGraphicBot.modules.tops
 
     public class BaseTopGraphicModule : BaseGraphicModule
     {
-        public BaseTopGraphicModule(
-            IBitmapService bitmapService,
-	        IDiscordService discordService,
-	        IFileSystem fileSystem)
-	        : base(bitmapService, discordService, fileSystem)
-        {
-
-        }
-
         public async Task GenerateGraphicAsync(string templateName, Rectangle rectangle, BaseTopGraphicModuleArguments arguments)
         {
 	        arguments ??= new BaseTopGraphicModuleArguments();
@@ -38,14 +29,14 @@ namespace XLGraphicBot.modules.tops
 
             try
             {
-                (Graphic, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
+                (Graphic, attachmentFileName) = await DiscordService.GetMostRecentImage(Context);
                 if (Graphic == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
                 Template = new Bitmap($"./img/templates/tops/{templateName}.png");
 
-                ResultGraphic = _bitmapService.ApplyGraphicToTemplate(Template, Graphic, rectangle, arguments.MaintainAspectRatio, arguments.Color);
+                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, rectangle, arguments.MaintainAspectRatio, arguments.Color);
 
                 shirtFilePath = await WriteFileAndSend(ResultGraphic, $"{templateName}_{attachmentFileName}.png");
             }

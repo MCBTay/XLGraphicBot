@@ -8,15 +8,6 @@ namespace XLGraphicBot.modules.tops
 {
 	public class TLSweaterGraphicModule : BaseTopGraphicModule
     {
-	    public TLSweaterGraphicModule(
-		    IBitmapService bitmapService,
-		    IDiscordService discordService,
-		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
-        {
-		    
-	    }
-
         [Command("tlsweater")]
         [Summary("Applies the image to the SkaterXL TLSweater template.")]
         [Alias("tl")]

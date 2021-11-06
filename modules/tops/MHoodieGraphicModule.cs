@@ -8,15 +8,6 @@ namespace XLGraphicBot.modules.tops
 {
 	public class MHoodieGraphicModule : BaseTopGraphicModule
     {
-	    public MHoodieGraphicModule(
-		    IBitmapService bitmapService,
-		    IDiscordService discordService,
-		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
-        {
-		    
-	    }
-
         [Command("mhoodie")]
         [Summary("Applies the image to the SkaterXL MHoodie template.")]
         [Alias("hoodie")]

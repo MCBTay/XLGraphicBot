@@ -8,15 +8,6 @@ namespace XLGraphicBot.modules.tops
 {
 	public class ESShirtGraphicModule : BaseTopGraphicModule
     {
-	    public ESShirtGraphicModule(
-		    IBitmapService bitmapService,
-		    IDiscordService discordService,
-		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
-        {
-		    
-	    }
-
         [Command("esshirt")]
         [Summary("Applies the image to the SkaterXL ESShirt template.")]
         [Alias("es")]

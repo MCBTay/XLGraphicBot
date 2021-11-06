@@ -8,15 +8,6 @@ namespace XLGraphicBot.modules.tops
 {
 	public class MShirtGraphicModule : BaseTopGraphicModule
     {
-	    public MShirtGraphicModule(
-		    IBitmapService bitmapService,
-		    IDiscordService discordService,
-		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
-		{
-		    
-	    }
-
         [Command("mshirt")]
         [Summary("Applies the image to the SkaterXL MShirt template.")]
         [Alias("shirt")]

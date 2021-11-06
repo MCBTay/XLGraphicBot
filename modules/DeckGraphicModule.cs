@@ -19,15 +19,6 @@ namespace XLGraphicBot.modules
     public class DeckGraphicModule : BaseGraphicModule
     {
 	    private Bitmap WearTemplate;
-        
-	    public DeckGraphicModule(
-            IBitmapService bitmapService,
-		    IDiscordService discordService,
-		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
-	    {
-
-	    }
 
 		[Command("deck")]
         [Summary("Applies the SkaterXL deck template to the most recent image.")]
@@ -42,20 +33,20 @@ namespace XLGraphicBot.modules
 
             try 
             {
-                (Graphic, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
+                (Graphic, attachmentFileName) = await DiscordService.GetMostRecentImage(Context);
                 if (Graphic == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
                 Template = new Bitmap("./img/templates/deck.png");
 
-                ResultGraphic = _bitmapService.ApplyGraphicToTemplate(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.MaintainAspectRatio);
+                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.MaintainAspectRatio);
 
                 if (arguments.IncludeWear)
                 {
 	                WearTemplate = new Bitmap("./img/templates/wear.png");
 
-	                ResultGraphic = _bitmapService.ApplyGraphicToTemplate(ResultGraphic, WearTemplate, new Rectangle(0, 0, Template.Width, Template.Height));
+	                ResultGraphic = BitmapService.ApplyGraphicToTemplate(ResultGraphic, WearTemplate, new Rectangle(0, 0, Template.Width, Template.Height));
                 }
 
                 deckFilePath = await WriteFileAndSend(ResultGraphic, $"Deck_{attachmentFileName}.png");

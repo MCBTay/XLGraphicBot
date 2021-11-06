@@ -8,15 +8,6 @@ namespace XLGraphicBot.modules.tops
 {
 	public class TAShirtGraphicModule : BaseTopGraphicModule
     {
-	    public TAShirtGraphicModule(
-		    IBitmapService bitmapService,
-		    IDiscordService discordService,
-		    IFileSystem fileSystem)
-		    : base(bitmapService, discordService, fileSystem)
-        {
-		    
-	    }
-
         [Command("tashirt")]
         [Summary("Applies the image to the SkaterXL TAShirt template.")]
         [Alias("ta")]
