@@ -50,13 +50,20 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       
-    - name: Build and analyze
+    - name: Start SonarScanner Analysis
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      shell: powershell
-      run: |
-        .\.sonar\scanner\dotnet-sonarscanner begin /k:"MCBTay_XLGraphicBot" /o:"mcbtay" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /s:$GITHUB_WORKSPACE/a/XLGraphicBot/XLGraphicBot/SonarQube.Analysis.xml
-        dotnet build --no-restore
-        dotnet test --no-build --verbosity normal --settings coverlet.runsettings --logger:trx
-        .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      run: .\.sonar\scanner\dotnet-sonarscanner begin /k:"MCBTay_XLGraphicBot" /o:"mcbtay" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /s:$GITHUB_WORKSPACE/a/XLGraphicBot/XLGraphicBot/SonarQube.Analysis.xml
+      
+    - name: Build 
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --settings coverlet.runsettings --logger:trx
+      
+    - name: Stop SonarScanner Analysis
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
