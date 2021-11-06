@@ -2,17 +2,13 @@ using Discord.Commands;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
 using System.IO.Abstractions;
 using System.Threading.Tasks;
-using XLGraphicBot.modules;
 using XLGraphicBot.services;
 
 namespace XLGraphicBot.modules.tops
 {
-    [ExcludeFromCodeCoverage]
+	[ExcludeFromCodeCoverage]
 	[NamedArgumentType]
     public class BaseTopGraphicModuleArguments 
     {
@@ -22,10 +18,6 @@ namespace XLGraphicBot.modules.tops
 
     public class BaseTopGraphicModule : BaseGraphicModule
     {
-        private Bitmap attachmentImage;
-        protected Bitmap template;
-        private Bitmap shirt;
-
         public BaseTopGraphicModule(
             IBitmapService bitmapService,
 	        IDiscordService discordService,
@@ -37,6 +29,8 @@ namespace XLGraphicBot.modules.tops
 
         public async Task GenerateGraphicAsync(string templateName, Rectangle rectangle, BaseTopGraphicModuleArguments arguments)
         {
+	        arguments ??= new BaseTopGraphicModuleArguments();
+
             string attachmentFileName = string.Empty;
             string attachmentFilePath = string.Empty;
 
@@ -44,41 +38,16 @@ namespace XLGraphicBot.modules.tops
 
             try
             {
-                (attachmentImage, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
-                if (attachmentImage == null || string.IsNullOrEmpty(attachmentFileName)) return;
+                (Graphic, attachmentFileName) = await _discordService.GetMostRecentImage(Context);
+                if (Graphic == null || string.IsNullOrEmpty(attachmentFileName)) return;
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
-                template = new Bitmap($"./img/templates/tops/{templateName}.png");
+                Template = new Bitmap($"./img/templates/tops/{templateName}.png");
 
-                shirt = new Bitmap(template.Width, template.Height);
+                ResultGraphic = _bitmapService.ApplyGraphicToTemplate(Template, Graphic, rectangle, arguments.MaintainAspectRatio, arguments.Color);
 
-                using (Graphics g = Graphics.FromImage(shirt))
-                {
-	                g.Clear(Color.Transparent);
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-                    g.DrawImage(template, 0, 0, template.Width, template.Height);
-
-                    ReplaceTemplateColor(arguments?.Color);
-
-                    Rectangle scaledRect = rectangle;
-
-                    if (arguments != null && arguments.MaintainAspectRatio)
-                    {
-                        scaledRect = ScaleImage(attachmentImage.Width, attachmentImage.Height, rectangle);
-                    }
-
-                    g.DrawImage(attachmentImage, scaledRect);
-                }
-
-                var shirtDirectory = "./img/generated/";
-                if (!Directory.Exists(shirtDirectory)) Directory.CreateDirectory(shirtDirectory);
-
-                shirtFilePath = $"{shirtDirectory}{templateName}_{attachmentFileName}.png";
-                shirt.Save(shirtFilePath, ImageFormat.Png);
-
-                await Context.Channel.SendFileAsync(shirtFilePath);
+                shirtFilePath = await WriteFileAndSend(ResultGraphic, $"{templateName}_{attachmentFileName}.png");
             }
             catch (Exception ex)
             {
@@ -87,43 +56,17 @@ namespace XLGraphicBot.modules.tops
             }
             finally
             {
-                attachmentImage?.Dispose();
-                template?.Dispose();
-                shirt?.Dispose();
+                Graphic?.Dispose();
+                Template?.Dispose();
+                ResultGraphic?.Dispose();
+
+                Graphic = null;
+                Template = null;
+                ResultGraphic = null;
 
                 DeleteFile(attachmentFilePath);
                 DeleteFile(shirtFilePath);
             }
-        }
-
-        private void ReplaceTemplateColor(string color)
-        {
-            if (string.IsNullOrEmpty(color)) return;
-	                
-            Color parsedColor = ParseColor(color);
-
-            for (int i = 0; i < shirt.Width; i++) 
-            {
-                for (int j = 0; j < shirt.Height; j++) 
-                {
-                    var pixel = shirt.GetPixel(i, j);
-
-                    if (pixel.R == 255 && pixel.G == 255 && pixel.B == 255) 
-                    {
-                        shirt.SetPixel(i, j, parsedColor);
-                    }
-                }
-            }
-        }
-
-        private static Color ParseColor(string color)
-        {
-          if (color.StartsWith('#')) 
-          {
-            return ColorTranslator.FromHtml(color);
-          }
-          
-          return Color.FromName(color);
         }
     }
 }
