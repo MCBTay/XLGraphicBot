@@ -80,7 +80,7 @@ namespace XLGraphicBot.services
 			return result;
 		}
 
-		private Rectangle ScaleRectangle(Graphics g, Bitmap graphic, Rectangle rectangle, bool stretch)
+		private static Rectangle ScaleRectangle(Graphics g, Bitmap graphic, Rectangle rectangle, bool stretch)
 		{
 			g.Clear(Color.Transparent);
 			g.InterpolationMode = InterpolationMode.HighQualityBicubic;

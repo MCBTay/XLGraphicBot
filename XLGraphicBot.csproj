@@ -6,6 +6,7 @@
 	  <DockerfileContext>.</DockerfileContext>
 	  <GenerateProgramFile>false</GenerateProgramFile>
 	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <Authors>mcbtay</Authors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="XLGraphicBot.Localization\**" />
