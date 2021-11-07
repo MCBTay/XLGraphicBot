@@ -15,7 +15,7 @@ namespace XLGraphicBot.services
 
 		Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool stretch = false, string color = null);
 
-		Rectangle ScaleImage(int imageWidth, int imageHeight, Rectangle rectangle);
+		Bitmap ApplyTemplateToGraphic(Bitmap template, Bitmap graphic, Rectangle rectangle, bool stretch = false, string color = null);
 	}
 
 	public class BitmapService : IBitmapService
@@ -56,28 +56,63 @@ namespace XLGraphicBot.services
 			var result = new Bitmap(template.Width, template.Height);
 
 			using Graphics g = Graphics.FromImage(result);
-			g.Clear(Color.Transparent);
-			g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-			if (template.Size == graphic.Size)
-			{
-				g.DrawImage(graphic, 0, 0, template.Width, template.Height);
-				return result;
-			}
-
-			Rectangle scaledRect = rectangle;
-			if (!stretch)
-			{
-				scaledRect = ScaleImage(graphic.Width, graphic.Height, rectangle);
-			}
+			var scaledRect = ScaleRectangle(g, graphic, rectangle, stretch);
 
 			g.DrawImage(template, 0, 0, template.Width, template.Height);
-			
 			ReplaceTemplateColor(result, color);
-			
 			g.DrawImage(graphic, scaledRect);
 
 			return result;
+		}
+
+		public Bitmap ApplyTemplateToGraphic(Bitmap template, Bitmap graphic, Rectangle rectangle, bool stretch = false, string color = null)
+		{
+			var result = new Bitmap(template.Width, template.Height);
+
+			using Graphics g = Graphics.FromImage(result);
+			
+			var scaledRect = ScaleRectangle(g, graphic, rectangle, stretch);
+
+			g.DrawImage(graphic, scaledRect);
+			g.DrawImage(template, 0, 0, template.Width, template.Height);
+
+			return result;
+		}
+
+		private Rectangle ScaleRectangle(Graphics g, Bitmap graphic, Rectangle rectangle, bool stretch)
+		{
+			g.Clear(Color.Transparent);
+			g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+			if (stretch) return rectangle;
+
+			if (graphic.Width > graphic.Height)
+			{
+				float ratio = (float)rectangle.Width / (float)graphic.Width;
+
+				var newWidth = (int)(graphic.Width * ratio);
+				var newHeight = (int)(graphic.Height * ratio);
+
+				var newY = rectangle.Y + ((rectangle.Height - newHeight) / 2);
+
+				return new Rectangle(rectangle.X, newY, newWidth, newHeight);
+			}
+
+			if (graphic.Height > graphic.Width)
+			{
+				float ratio = (float)rectangle.Height / (float)graphic.Height;
+
+				var newWidth = (int)(graphic.Width * ratio);
+				var newHeight = (int)(graphic.Height * ratio);
+
+				var newX = rectangle.X + ((rectangle.Width - newWidth) / 2);
+
+				return new Rectangle(newX, rectangle.Y, newWidth, newHeight);
+			}
+
+			//TODO: if neither of the above two conditions are true, we can scale the iamge using the same ratio in both directions
+			return rectangle;
 		}
 
 		public static void ReplaceTemplateColor(Bitmap result, string color)
@@ -103,36 +138,6 @@ namespace XLGraphicBot.services
 		public static Color ParseColor(string color)
 		{
 			return color.StartsWith('#') ? ColorTranslator.FromHtml(color) : Color.FromName(color);
-		}
-
-		public Rectangle ScaleImage(int imageWidth, int imageHeight, Rectangle rectangle)
-		{
-			if (imageWidth > imageHeight)
-			{
-				float ratio = (float)rectangle.Width / (float)imageWidth;
-
-				var newWidth = (int)(imageWidth * ratio);
-				var newHeight = (int)(imageHeight * ratio);
-
-				var newY = rectangle.Y + ((rectangle.Height - newHeight) / 2);
-
-				return new Rectangle(rectangle.X, newY, newWidth, newHeight);
-			}
-
-			if (imageHeight > imageWidth)
-			{
-				float ratio = (float)rectangle.Height / (float)imageHeight;
-
-				var newWidth = (int)(imageWidth * ratio);
-				var newHeight = (int)(imageHeight * ratio);
-
-				var newX = rectangle.X + ((rectangle.Width - newWidth) / 2);
-
-				return new Rectangle(newX, rectangle.Y, newWidth, newHeight);
-			}
-
-			//TODO: if neither of the above two conditions are true, we can scale the iamge using the same ratio in both directions
-			return rectangle;
 		}
 	}
 }
