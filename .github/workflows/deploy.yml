@@ -35,9 +35,11 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env: 
+        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        echo "${{secrets.DISCORD_TOKEN}}" > token.txt
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --secret id=discordtoken,src=token.txt
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
         
