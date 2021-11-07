@@ -25,8 +25,8 @@ namespace XLGraphicBot.modules
             {
 	            var sb = new StringBuilder();
 
-	            sb.AppendLine(Strings.HelpHeader);
-	            sb.AppendLine(Strings.General_Description);
+				sb.AppendLine($"{Strings.HelpHeader} **(v{Strings.Version})**");
+				sb.AppendLine(Strings.General_Description);
 	            sb.AppendLine(Strings.General_Deck);
 	            sb.AppendLine(Strings.General_Tops);
 	            sb.AppendLine(Strings.General_Colors);
@@ -39,8 +39,8 @@ namespace XLGraphicBot.modules
             {
 	            var sb = new StringBuilder();
 
-	            sb.AppendLine(Strings.HelpHeader);
-	            sb.AppendLine(Strings.Deck_Description);
+	            sb.AppendLine($"{Strings.HelpHeader} **(v{Strings.Version})**");
+				sb.AppendLine(Strings.Deck_Description);
 	            sb.AppendLine(Strings.Deck_Parameters);
 	            sb.AppendLine(Strings.Deck_IncludeWear);
 	            sb.AppendLine(Strings.Deck_MaintainAspectRatio);
@@ -63,7 +63,7 @@ namespace XLGraphicBot.modules
 				{
 					var sb = new StringBuilder();
 
-					sb.AppendLine(Strings.HelpHeader);
+					sb.AppendLine($"{Strings.HelpHeader} **(v{Strings.Version})**");
 					sb.AppendLine(Strings.Tops_Description);
 					sb.AppendLine(Strings.Tops_AlphaMShirt);
 					sb.AppendLine(Strings.Tops_BWHoodie);
@@ -88,8 +88,8 @@ namespace XLGraphicBot.modules
                 {
 	                var sb = new StringBuilder();
 
-	                sb.AppendLine(Strings.HelpHeader);
-	                sb.AppendLine(Strings.TheFullListOfColors);
+					sb.AppendLine($"{Strings.HelpHeader} **(v{Strings.Version})**");
+					sb.AppendLine(Strings.TheFullListOfColors);
 	                sb.AppendLine(Strings.KnownColors);
 
 					await _discordService.SendMessageAsync(Context, sb.ToString());

@@ -139,7 +139,7 @@
     <value>XLGraphicBot allows you to take images posted in a channel and turn them into a deck or shirt immediately for SkaterXL.</value>
   </data>
   <data name="General_Tops" xml:space="preserve">
-    <value>- `!alphamshirt`/`!bwhoodie`/`!esshirt`/`!mhoodie`/`!mshirt`/`!msweater`/`!tashirt`/`!tlsweater` - Takes the most recent image and places it on the appropriate shirt/sweater template.  For more info, run `!graphicbot help tops`</value>
+    <value>- `!alphamshirt` / `!bwhoodie` / `!esshirt` / `!mhoodie` / `!mshirt` / `!msweater` / `!tashirt` / `!tlsweater` - Takes the most recent image and places it on the appropriate shirt/sweater template.  For more info, run `!graphicbot help tops`</value>
   </data>
   <data name="HelpHeader" xml:space="preserve">
     <value>**XLGraphicBot Help**</value>
@@ -194,5 +194,8 @@
   </data>
   <data name="Tops_TLSweater" xml:space="preserve">
     <value>- `!tlsweater`/`!tl` - TLSweater template.</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>1.0.0</value>
   </data>
 </root>

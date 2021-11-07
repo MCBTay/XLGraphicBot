@@ -124,7 +124,7 @@ namespace XLGraphicBot.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to - `!alphamshirt`/`!bwhoodie`/`!esshirt`/`!mhoodie`/`!mshirt`/`!msweater`/`!tashirt`/`!tlsweater` - Takes the most recent image and places it on the appropriate shirt/sweater template.  For more info, run `!graphicbot help tops`.
+        ///   Looks up a localized string similar to - `!alphamshirt` / `!bwhoodie` / `!esshirt` / `!mhoodie` / `!mshirt` / `!msweater` / `!tashirt` / `!tlsweater` - Takes the most recent image and places it on the appropriate shirt/sweater template.  For more info, run `!graphicbot help tops`.
         /// </summary>
         public static string General_Tops {
             get {
@@ -291,6 +291,15 @@ namespace XLGraphicBot.Localization {
         public static string Tops_TLSweater {
             get {
                 return ResourceManager.GetString("Tops_TLSweater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.0.0.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
             }
         }
     }
