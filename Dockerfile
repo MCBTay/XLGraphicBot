@@ -22,7 +22,7 @@ RUN dotnet build "XLGraphicBot.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "XLGraphicBot.csproj" -c Release -o /app/publish
 
-RUN echo "${{secrets.DISCORD_TOKEN}}" > token.txt
+RUN echo "${{secrets.DISCORD_TOKEN}}" > /app/publish/token.txt
 
 FROM base AS final
 WORKDIR /app
