@@ -295,6 +295,15 @@ namespace XLGraphicBot.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sorry, I didn&apos;t find an image I could use in the last 20 posts..
+        /// </summary>
+        public static string UnableToFindImageMessage {
+            get {
+                return ResourceManager.GetString("UnableToFindImageMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1.0.0.
         /// </summary>
         public static string Version {

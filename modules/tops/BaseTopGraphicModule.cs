@@ -3,14 +3,15 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
+using XLGraphicBot.Localization;
 
 namespace XLGraphicBot.modules.tops
 {
 	[ExcludeFromCodeCoverage]
 	[NamedArgumentType]
-    public class BaseTopGraphicModuleArguments 
+    public class BaseTopGraphicModuleArguments
     {
-        public string Color { get; set; }
+	    public string Color { get; set; } = null;
         public bool Stretch { get; set; } = false;
     }
 
@@ -28,7 +29,11 @@ namespace XLGraphicBot.modules.tops
             try
             {
                 (Graphic, attachmentFileName) = await DiscordService.GetMostRecentImage(Context);
-                if (Graphic == null || string.IsNullOrEmpty(attachmentFileName)) return;
+                if (Graphic == null || string.IsNullOrEmpty(attachmentFileName))
+                {
+	                await DiscordService.SendMessageAsync(Context, Strings.UnableToFindImageMessage);
+	                return;
+                }
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 

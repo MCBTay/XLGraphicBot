@@ -195,6 +195,9 @@
   <data name="Tops_TLSweater" xml:space="preserve">
     <value>- `!tlsweater`/`!tl` - TLSweater template.</value>
   </data>
+  <data name="UnableToFindImageMessage" xml:space="preserve">
+    <value>Sorry, I didn't find an image I could use in the last 20 posts.</value>
+  </data>
   <data name="Version" xml:space="preserve">
     <value>1.0.0</value>
   </data>

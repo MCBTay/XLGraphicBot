@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Threading.Tasks;
+using XLGraphicBot.Localization;
 
 namespace XLGraphicBot.modules
 {
@@ -20,7 +21,7 @@ namespace XLGraphicBot.modules
 
 		[Command("deck")]
         [Summary("Applies the SkaterXL deck template to the most recent image.")]
-        public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
+		public async Task DeckAsync(DeckGraphicModuleArguments arguments = null)
         {
 	        arguments ??= new DeckGraphicModuleArguments();
             
@@ -32,7 +33,11 @@ namespace XLGraphicBot.modules
             try 
             {
                 (Graphic, attachmentFileName) = await DiscordService.GetMostRecentImage(Context);
-                if (Graphic == null || string.IsNullOrEmpty(attachmentFileName)) return;
+                if (Graphic == null || string.IsNullOrEmpty(attachmentFileName))
+                {
+	                await DiscordService.SendMessageAsync(Context, Strings.UnableToFindImageMessage);
+	                return;
+                }
 
                 attachmentFilePath = $"./img/download/{attachmentFileName}";
 
@@ -44,7 +49,7 @@ namespace XLGraphicBot.modules
                 {
 	                WearTemplate = new Bitmap("./img/templates/wear.png");
 
-	                ResultGraphic = BitmapService.ApplyTemplateToGraphic(ResultGraphic, WearTemplate, new Rectangle(0, 0, Template.Width, Template.Height));
+	                ResultGraphic = BitmapService.ApplyTemplateToGraphic(WearTemplate, ResultGraphic, new Rectangle(0, 0, Template.Width, Template.Height));
                 }
 
                 deckFilePath = await WriteFileAndSend(ResultGraphic, $"Deck_{attachmentFileName}.png");
