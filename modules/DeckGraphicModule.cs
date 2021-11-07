@@ -38,13 +38,13 @@ namespace XLGraphicBot.modules
 
                 Template = new Bitmap("./img/templates/deck.png");
 
-                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.Stretch);
+                ResultGraphic = BitmapService.ApplyTemplateToGraphic(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.Stretch);
 
                 if (arguments.IncludeWear)
                 {
 	                WearTemplate = new Bitmap("./img/templates/wear.png");
 
-	                ResultGraphic = BitmapService.ApplyGraphicToTemplate(ResultGraphic, WearTemplate, new Rectangle(0, 0, Template.Width, Template.Height));
+	                ResultGraphic = BitmapService.ApplyTemplateToGraphic(ResultGraphic, WearTemplate, new Rectangle(0, 0, Template.Width, Template.Height));
                 }
 
                 deckFilePath = await WriteFileAndSend(ResultGraphic, $"Deck_{attachmentFileName}.png");
