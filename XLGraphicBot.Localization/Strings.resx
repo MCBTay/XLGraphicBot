@@ -123,11 +123,11 @@
   <data name="Deck_IncludeWear" xml:space="preserve">
     <value>    - `includeWear` - Defaults to `false`.  Overlays a board wear pattern on the texture.  Example usage: `!deck includeWear: true`</value>
   </data>
-  <data name="Deck_MaintainAspectRatio" xml:space="preserve">
-    <value>    - `maintainAspectRatio` - Defaults to `true`.  Maintains the original images aspect ratio when scaling down.  Example usage: `!deck maintainAspectRatio: false`</value>
-  </data>
   <data name="Deck_Parameters" xml:space="preserve">
     <value>  - Has two optional parameters, which can be omitted entirely or used in any combination or order:</value>
+  </data>
+  <data name="Deck_Stretch" xml:space="preserve">
+    <value>    - `stretch` - Defaults to `false`.  By default, maintains original image's aspect ration when scaling.  Example usage: `!deck stretch: true`</value>
   </data>
   <data name="General_Colors" xml:space="preserve">
     <value>  - To see a list of all the colors that can be used with these run `!graphicbot help tops colors`.</value>
@@ -171,9 +171,6 @@
   <data name="Tops_KnownColors" xml:space="preserve">
     <value>      - `Known colors` - English monikers for colors.  To see the full list run `!graphicbot help tops colors`.</value>
   </data>
-  <data name="Tops_MaintainAspectRatio" xml:space="preserve">
-    <value>    - `maintainAspectRatio` - Defaults to `true`.  Maintains the original images aspect ratio when scaling down.  Example usage: `!mshirt maintainAspectRatio: false`</value>
-  </data>
   <data name="Tops_MHoodie" xml:space="preserve">
     <value>- `!mhoodie`/`!hoodie` - MHoodie template.</value>
   </data>
@@ -188,6 +185,9 @@
   </data>
   <data name="Tops_RRGGBB" xml:space="preserve">
     <value>      - `#RRGGBB` - Example usage: `!tlsweater color: #FF00FF`</value>
+  </data>
+  <data name="Tops_Stretch" xml:space="preserve">
+    <value>    - `stretch` - Defaults to `false`. By default, maintains original image's aspect ration when scaling. Example usage: `!mshirt stretch: true`</value>
   </data>
   <data name="Tops_TAShirt" xml:space="preserve">
     <value>- `!tashirt`/`!ta` - TAShirt template.</value>

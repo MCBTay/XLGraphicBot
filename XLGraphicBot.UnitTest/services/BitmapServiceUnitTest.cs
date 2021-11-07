@@ -64,7 +64,7 @@ namespace XLGraphicBot.UnitTest.services
 		#region ApplyGraphicToTemplate tests
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_MaintainAspectRatio_NullColor(
+		public void ApplyGraphicToTemplate_StretchFalse_NullColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);
@@ -79,7 +79,7 @@ namespace XLGraphicBot.UnitTest.services
 		}
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_UndersizedGraphic_LongerThanWide_MaintainAspectRatioTrue_NullColor(
+		public void ApplyGraphicToTemplate_UndersizedGraphic_LongerThanWide_StretchFalse_NullColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);
@@ -106,14 +106,14 @@ namespace XLGraphicBot.UnitTest.services
 		}
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_UndersizedGraphic_LongerThanWide_MaintainAspectRatioFalse_NullColor(
+		public void ApplyGraphicToTemplate_UndersizedGraphic_LongerThanWide_StretchTrue_NullColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);
 			var graphic = SetupGraphic(10, 40, Brushes.Red);
 			var rectangle = new Rectangle(25, 25, 50, 50);
 
-			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle, false);
+			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle, true);
 
 			actual.Should().NotBeNull();
 
@@ -133,7 +133,7 @@ namespace XLGraphicBot.UnitTest.services
 		}
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_UndersizedGraphic_WiderThanLong_MaintainAspectRatioTrue_NullColor(
+		public void ApplyGraphicToTemplate_UndersizedGraphic_WiderThanLong_StretchFalse_NullColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);
@@ -160,14 +160,14 @@ namespace XLGraphicBot.UnitTest.services
 		}
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_UndersizedGraphic_WiderThanLong_MaintainAspectRatioFalse_NullColor(
+		public void ApplyGraphicToTemplate_UndersizedGraphic_WiderThanLong_StretchTrue_NullColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);
 			var graphic = SetupGraphic(40, 10, Brushes.Red);
 			var rectangle = new Rectangle(25, 25, 50, 50);
 
-			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle, false);
+			var actual = sut.ApplyGraphicToTemplate(template, graphic, rectangle, true);
 
 			actual.Should().NotBeNull();
 
@@ -187,7 +187,7 @@ namespace XLGraphicBot.UnitTest.services
 		}
 
 		[Theory, AutoMoqData]
-		public void ApplyGraphicToTemplate_MaintainAspectRatio_ValidColor(
+		public void ApplyGraphicToTemplate_StretchFalse_ValidColor(
 			BitmapService sut)
 		{
 			var template = SetupTemplate(100, Brushes.White);

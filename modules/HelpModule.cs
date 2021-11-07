@@ -43,7 +43,7 @@ namespace XLGraphicBot.modules
 				sb.AppendLine(Strings.Deck_Description);
 	            sb.AppendLine(Strings.Deck_Parameters);
 	            sb.AppendLine(Strings.Deck_IncludeWear);
-	            sb.AppendLine(Strings.Deck_MaintainAspectRatio);
+	            sb.AppendLine(Strings.Deck_Stretch);
 
 				await _discordService.SendMessageAsync(Context, sb.ToString());
 			}
@@ -78,7 +78,7 @@ namespace XLGraphicBot.modules
 					sb.AppendLine(Strings.Tops_KnownColors);
 					sb.AppendLine(Strings.Tops_AARRGGBB);
 					sb.AppendLine(Strings.Tops_RRGGBB);
-					sb.AppendLine(Strings.Tops_MaintainAspectRatio);
+					sb.AppendLine(Strings.Tops_Stretch);
 
 					await _discordService.SendMessageAsync(Context, sb.ToString());
 				}

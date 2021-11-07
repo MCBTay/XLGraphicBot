@@ -52,7 +52,7 @@ namespace XLGraphicBot.UnitTest.modules
 						y.Contains(Strings.Deck_Description) &&
 						y.Contains(Strings.Deck_Parameters) &&
 						y.Contains(Strings.Deck_IncludeWear) &&
-						y.Contains(Strings.Deck_MaintainAspectRatio)),
+						y.Contains(Strings.Deck_Stretch)),
 					false,
 					null,
 					null,
@@ -86,7 +86,7 @@ namespace XLGraphicBot.UnitTest.modules
 						y.Contains(Strings.Tops_KnownColors) &&
 						y.Contains(Strings.Tops_AARRGGBB) &&
 						y.Contains(Strings.Tops_RRGGBB) &&
-						y.Contains(Strings.Tops_MaintainAspectRatio)),
+						y.Contains(Strings.Tops_Stretch)),
 					false,
 					null,
 					null,

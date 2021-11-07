@@ -11,7 +11,7 @@ namespace XLGraphicBot.modules.tops
     public class BaseTopGraphicModuleArguments 
     {
         public string Color { get; set; }
-        public bool MaintainAspectRatio { get; set; } = true;
+        public bool Stretch { get; set; } = false;
     }
 
     public class BaseTopGraphicModule : BaseGraphicModule
@@ -34,7 +34,7 @@ namespace XLGraphicBot.modules.tops
 
                 Template = new Bitmap($"./img/templates/tops/{templateName}.png");
 
-                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, rectangle, arguments.MaintainAspectRatio, arguments.Color);
+                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, rectangle, arguments.Stretch, arguments.Color);
 
                 shirtFilePath = await WriteFileAndSend(ResultGraphic, $"{templateName}_{attachmentFileName}.png");
             }

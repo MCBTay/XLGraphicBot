@@ -13,7 +13,7 @@ namespace XLGraphicBot.services
 
 		void WriteBitmap(Bitmap bitmap, string filePath, ImageFormat imageFormat);
 
-		Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool maintainAspectRatio = true, string color = null);
+		Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool stretch = false, string color = null);
 
 		Rectangle ScaleImage(int imageWidth, int imageHeight, Rectangle rectangle);
 	}
@@ -51,7 +51,7 @@ namespace XLGraphicBot.services
 			bitmap.Save(filePath, imageFormat);
 		}
 
-		public Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool maintainAspectRatio = true, string color = null)
+		public Bitmap ApplyGraphicToTemplate(Bitmap template, Bitmap graphic, Rectangle rectangle, bool stretch = false, string color = null)
 		{
 			var result = new Bitmap(template.Width, template.Height);
 
@@ -66,7 +66,7 @@ namespace XLGraphicBot.services
 			}
 
 			Rectangle scaledRect = rectangle;
-			if (maintainAspectRatio)
+			if (!stretch)
 			{
 				scaledRect = ScaleImage(graphic.Width, graphic.Height, rectangle);
 			}

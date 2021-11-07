@@ -79,20 +79,20 @@ namespace XLGraphicBot.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to     - `maintainAspectRatio` - Defaults to `true`.  Maintains the original images aspect ratio when scaling down.  Example usage: `!deck maintainAspectRatio: false`.
-        /// </summary>
-        public static string Deck_MaintainAspectRatio {
-            get {
-                return ResourceManager.GetString("Deck_MaintainAspectRatio", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to   - Has two optional parameters, which can be omitted entirely or used in any combination or order:.
         /// </summary>
         public static string Deck_Parameters {
             get {
                 return ResourceManager.GetString("Deck_Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to     - `stretch` - Defaults to `false`.  By default, maintains original image&apos;s aspect ration when scaling.  Example usage: `!deck stretch: true`.
+        /// </summary>
+        public static string Deck_Stretch {
+            get {
+                return ResourceManager.GetString("Deck_Stretch", resourceCulture);
             }
         }
         
@@ -223,15 +223,6 @@ namespace XLGraphicBot.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to     - `maintainAspectRatio` - Defaults to `true`.  Maintains the original images aspect ratio when scaling down.  Example usage: `!mshirt maintainAspectRatio: false`.
-        /// </summary>
-        public static string Tops_MaintainAspectRatio {
-            get {
-                return ResourceManager.GetString("Tops_MaintainAspectRatio", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to - `!mhoodie`/`!hoodie` - MHoodie template..
         /// </summary>
         public static string Tops_MHoodie {
@@ -273,6 +264,15 @@ namespace XLGraphicBot.Localization {
         public static string Tops_RRGGBB {
             get {
                 return ResourceManager.GetString("Tops_RRGGBB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to     - `stretch` - Defaults to `false`. By default, maintains original image&apos;s aspect ration when scaling. Example usage: `!mshirt stretch: true`.
+        /// </summary>
+        public static string Tops_Stretch {
+            get {
+                return ResourceManager.GetString("Tops_Stretch", resourceCulture);
             }
         }
         

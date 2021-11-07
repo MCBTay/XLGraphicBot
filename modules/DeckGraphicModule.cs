@@ -11,7 +11,7 @@ namespace XLGraphicBot.modules
     public class DeckGraphicModuleArguments 
     {
         public bool IncludeWear { get; set; } = false;
-        public bool MaintainAspectRatio { get; set; } = true;
+        public bool Stretch { get; set; } = false;
     }
     
     public class DeckGraphicModule : BaseGraphicModule
@@ -38,7 +38,7 @@ namespace XLGraphicBot.modules
 
                 Template = new Bitmap("./img/templates/deck.png");
 
-                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.MaintainAspectRatio);
+                ResultGraphic = BitmapService.ApplyGraphicToTemplate(Template, Graphic, new Rectangle(0, 694, Template.Width, 482), arguments.Stretch);
 
                 if (arguments.IncludeWear)
                 {
