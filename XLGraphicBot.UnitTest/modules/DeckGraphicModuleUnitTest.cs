@@ -67,11 +67,11 @@ namespace XLGraphicBot.UnitTest.modules
 
 			await sut.DeckAsync(new DeckGraphicModuleArguments { IncludeWear = includeWear });
 
-			mockBitmapService.Verify(x => x.ApplyGraphicToTemplate(It.IsAny<Bitmap>(), It.IsAny<Bitmap>(), new Rectangle(0, 694, 2048, 482), It.IsAny<bool>(), It.IsAny<string>()), Times.Once());
+			mockBitmapService.Verify(x => x.ApplyTemplateToGraphic(It.IsAny<Bitmap>(), It.IsAny<Bitmap>(), new Rectangle(0, 694, 2048, 482), It.IsAny<bool>(), It.IsAny<string>()), Times.Once());
 
 			if (includeWear)
 			{
-				mockBitmapService.Verify(x => x.ApplyGraphicToTemplate(It.IsAny<Bitmap>(), It.IsAny<Bitmap>(), new Rectangle(0, 0, 2048, 2048), It.IsAny<bool>(), It.IsAny<string>()), Times.Once());
+				mockBitmapService.Verify(x => x.ApplyTemplateToGraphic(It.IsAny<Bitmap>(), It.IsAny<Bitmap>(), new Rectangle(0, 0, 2048, 2048), It.IsAny<bool>(), It.IsAny<string>()), Times.Once());
 			}
 
 			mockDiscordService.Verify(x => x.SendFileAsync(It.IsAny<ICommandContext>(), It.IsAny<Bitmap>(), It.IsAny<string>()), Times.Once());

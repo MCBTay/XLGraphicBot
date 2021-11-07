@@ -62,7 +62,6 @@ namespace XLGraphicBot.UnitTest.services
 		#endregion
 
 		#region ApplyGraphicToTemplate tests
-
 		[Theory, AutoMoqData]
 		public void ApplyGraphicToTemplate_StretchFalse_NullColor(
 			BitmapService sut)
@@ -200,6 +199,32 @@ namespace XLGraphicBot.UnitTest.services
 
 			VerifyResult(actual, Color.Blue, Color.Red);
 		}
+		#endregion
+
+		#region ApplyTemplateToGraphic tests
+		[Theory, AutoMoqData]
+		public void ApplyTemplateToGraphic_StretchFalse_NullColor(
+			BitmapService sut)
+		{
+			var template = SetupTemplate(100, Brushes.White);
+			var graphic = SetupGraphic(100, 100, Brushes.Red);
+			var rectangle = new Rectangle(0, 0, 100, 100);
+
+			var actual = sut.ApplyTemplateToGraphic(template, graphic, rectangle);
+
+			actual.Should().NotBeNull();
+
+			for (int i = 0; i < actual.Width; i++)
+			{
+				for (int j = 0; j < actual.Height; j++)
+				{
+					var pixel = actual.GetPixel(i, j);
+
+					pixel.ToArgb().Should().Be(Color.White.ToArgb());
+				}
+			}
+		}
+		#endregion
 
 		private static Bitmap SetupTemplate(int size, Brush brush)
 		{
@@ -214,7 +239,7 @@ namespace XLGraphicBot.UnitTest.services
 		{
 			var graphic = new Bitmap(width, height);
 			using Graphics graph = Graphics.FromImage(graphic);
-			graph.FillRectangle(brush, new Rectangle(0, 0,  width, height));
+			graph.FillRectangle(brush, new Rectangle(0, 0, width, height));
 
 			return graphic;
 		}
@@ -234,7 +259,6 @@ namespace XLGraphicBot.UnitTest.services
 				}
 			}
 		}
-		#endregion
 
 		#region ReplaceTemplateColor tests
 		[Theory]
@@ -283,41 +307,6 @@ namespace XLGraphicBot.UnitTest.services
 		public void ParseColor(string color, int alpha, int red, int green, int blue)
 		{
 			BitmapService.ParseColor(color).ToArgb().Should().Be(Color.FromArgb(alpha, red, green, blue).ToArgb());
-		}
-		#endregion
-
-		#region ScaleImage tests
-		[Theory, AutoMoqData]
-		public void ScaleImage_WidthAndHeightMatch(
-			BitmapService sut)
-		{
-			var rectangle = new Rectangle(0, 0, 500, 500);
-
-			var actual = sut.ScaleImage(100, 100, rectangle);
-
-			actual.Should().Be(rectangle);
-		}
-
-		[Theory, AutoMoqData]
-		public void ScaleImage_WidthLarger(
-			BitmapService sut)
-		{
-			var rectangle = new Rectangle(0, 0, 500, 500);
-
-			var actual = sut.ScaleImage(200, 100, rectangle);
-
-			actual.Should().Be(new Rectangle(0, 125, 500, 250));
-		}
-
-		[Theory, AutoMoqData]
-		public void ScaleImage_HeightLarger(
-			BitmapService sut)
-		{
-			var rectangle = new Rectangle(0, 0, 500, 500);
-
-			var actual = sut.ScaleImage(100, 200, rectangle);
-
-			actual.Should().Be(new Rectangle(125, 0, 250, 500));
 		}
 		#endregion
 	}
